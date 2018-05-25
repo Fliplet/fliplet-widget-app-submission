@@ -987,93 +987,151 @@
                     </div>
                     <div class="help-block with-errors"></div>
                   </div>
+                </div>               
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+    <div class="panel-heading" id="appStoreReviewersHeading" role="tab">
+        <h4 aria-controls="appStoreReviewers" aria-expanded="true" class="panel-title collapsed" data-parent="#accordionAppStore" data-toggle="collapse" href="#appStoreReviewers" role="button">
+            <strong>
+                5 -
+            </strong>
+            Apple reviewer notes
+            <small>
+                (Required)
+            </small>
+            <i aria-hidden="true" class="fa fa-angle-down">
+            </i>
+        </h4>
+    </div>
+    <div aria-labelledby="appStoreReviewersHeading" class="panel-collapse collapse" id="appStoreReviewers" role="tabpanel">
+        <div class="panel-body">
+            <p class="help-block">
+                Additional information about your app that can help during the review process. If your app is secured, be sure to provide login details or credentials - the reviewer needs them to test your app.
+            </p>
+            <div class="form-group clearfix">
+                <div class="col-sm-4 control-label">
+                    <label for="fl-store-revFirstName">
+                        First Name
+                    </label>
                 </div>
-                <h3><small>Reviewer Notes</small></h3>
-                <p class="help-block">Additional information about your app that can help during the review process. If your app is secured, be sure to provide login details or credentials - the reviewer needs them to test your app.</p>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-revFirstName">First Name</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-revFirstName" class="form-control" id="fl-store-revFirstName" data-error="Please enter the first name" required/>
-                    <div class="help-block with-errors"></div>
-                  </div>
+                <div class="col-sm-8">
+                    <input class="form-control" data-error="Please enter the first name" id="fl-store-revFirstName" name="fl-store-revFirstName" required="" type="text"/>
+                    <div class="help-block with-errors">
+                    </div>
                 </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-revLastName">Last Name</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-revLastName" class="form-control" id="fl-store-revLastName" data-error="Please enter the last name" required/>
-                    <div class="help-block with-errors"></div>
-                  </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-sm-4 control-label">
+                    <label for="fl-store-revLastName">
+                        Last Name
+                    </label>
                 </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-revEmail">Email Address</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="email" name="fl-store-revEmail" class="form-control" id="fl-store-revEmail" data-error="Please enter a valid email address" required/>
-                    <div class="help-block with-errors"></div>
-                  </div>
+                <div class="col-sm-8">
+                    <input class="form-control" data-error="Please enter the last name" id="fl-store-revLastName" name="fl-store-revLastName" required="" type="text"/>
+                    <div class="help-block with-errors">
+                    </div>
                 </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-revPhone">Phone Number</label>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-revPhone" class="form-control" id="fl-store-revPhone" pattern="\+[0-9 ]+" data-error="Please enter a valid phone number" required/>
-                    <p class="help-block"><small>The phone number needs to include the area code. (Eg.: +44)</small></p>
-                    <div class="help-block with-errors"></div>
-                  </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-sm-4 control-label">
+                    <label for="fl-store-revEmail">
+                        Email Address
+                    </label>
                 </div>
-                <p class="help-block"><small>If your app has some kind of security system, please provide a demo user and password (if applicable).</small></p>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-revDemoUser">Demo User</label>
-                    <p class="help-block label-helper"><small>Optional</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-revDemoUser" class="form-control" maxlength="100" id="fl-store-revDemoUser" />
-                  </div>
+                <div class="col-sm-8">
+                    <input class="form-control" data-error="Please enter a valid email address" id="fl-store-revEmail" name="fl-store-revEmail" required="" type="email"/>
+                    <div class="help-block with-errors">
+                    </div>
                 </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-revDemoPass">Demo Password</label>
-                    <p class="help-block label-helper"><small>Optional</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-revDemoPass" class="form-control" maxlength="100" id="fl-store-revDemoPass" />
-                  </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-sm-4 control-label">
+                    <label for="fl-store-revPhone">
+                        Phone Number
+                    </label>
                 </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-revNotes">Notes</label>
-                    <p class="help-block label-helper"><small>Optional</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <textarea name="fl-store-revNotes" class="form-control" id="fl-store-revNotes" rows="10">[PLEASE REVIEW AND UPDATE OR REMOVE SECTION IN SQUARE BRACKETS]
+                <div class="col-sm-8">
+                    <input class="form-control" data-error="Please enter a valid phone number" id="fl-store-revPhone" name="fl-store-revPhone" pattern="\+[0-9 ]+" required="" type="text"/>
+                    <p class="help-block">
+                        <small>
+                            The phone number needs to include the area code. (Eg.: +44)
+                        </small>
+                    </p>
+                    <div class="help-block with-errors">
+                    </div>
+                </div>
+            </div>
+            <p class="help-block">
+                <div class="alert alert-warning">
+                  <strong>Important warning</strong> - if the reviewer notes are incomplete or insufficient, Apple may reject the app which will cause a delay in the launch. We have automatically loaded a suggested template in the reviewer notes. Please make sure to customize this template, or contact the Customer Success team for help.
+                </div>
+            </p>
+            <div class="form-group clearfix">
+                <div class="col-sm-4 control-label">
+                    <label for="fl-store-revNotes">
+                        Reviewer Notes
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <textarea class="form-control" id="fl-store-revNotes" name="fl-store-revNotes" rows="10">
+[PLEASE REVIEW AND UPDATE OR REMOVE SECTION IN SQUARE BRACKETS]
 
 Dear Apple
 
 We have reviewed your App Store Review Guidelines and we believe this conforms to your standards because:
+- the app offers a range of interactive functionality including [summarise key features] meets Apple's design standards and works on iPhone & iPad devices
+- the app is being distributed via the app store so members of the public [and our customers] can find and use the app
+- [the security system is designed to save customers data and offer a secure way for users to retrieve previously entered data]
+- [registration for an account is available via X screen in the app if people would like to gain access]
 
-the app offers a range of interactive functionality including [summarise key features]
-meets Apple's design standards and works on iPhone & iPad devices
-is being distributed via the app store so members of the public [and our customers] can find and use the app
-[the security system is designed to save customers data and offer a secure way for users to retrieve previously entered data]
-[registration for an account is available via X screen in the app if people would like to gain access]
 When reviewing this app please use the demo account provided. This will skip the email verification process the app uses to verify a user's identity.
 
 If you have any questions please reply and I will be happy to answer any questions.
 
 [Name]
                     </textarea>
-                  </div>
-                </div>                
-              </div>
+                </div>
             </div>
-          </div>
+            <p class="help-block">
+              <small>
+                  If your app has some kind of security system, please provide a demo user and password (if applicable).
+              </small>
+            </p>
+            <div class="form-group clearfix">
+                <div class="col-sm-4 control-label">
+                    <label for="fl-store-revDemoUser">
+                        Demo User
+                    </label>
+                    <p class="help-block label-helper">
+                        <small>
+                            Optional
+                        </small>
+                    </p>
+                </div>
+                <div class="col-sm-8">
+                    <input class="form-control" id="fl-store-revDemoUser" maxlength="100" name="fl-store-revDemoUser" type="text"/>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-sm-4 control-label">
+                    <label for="fl-store-revDemoPass">
+                        Demo Password
+                    </label>
+                    <p class="help-block label-helper">
+                        <small>
+                            Optional
+                        </small>
+                    </p>
+                </div>
+                <div class="col-sm-8">
+                    <input class="form-control" id="fl-store-revDemoPass" maxlength="100" name="fl-store-revDemoPass" type="text"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
         <hr>
         <div class="col-xs-5 save-btn-holder">
