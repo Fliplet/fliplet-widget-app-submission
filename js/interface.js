@@ -66,11 +66,6 @@ var socket = Fliplet.Socket({
   login: socketRequiresLogin
 });
 var socketClientId;
-var socketLoggedIn = false;
-
-socket.on('loginSuccess', function () {
-  socketLoggedIn = true;
-});
 
 /* FUNCTIONS */
 String.prototype.toCamelCase = function () {
@@ -81,7 +76,7 @@ String.prototype.toCamelCase = function () {
 };
 
 function waitForSocketConnection() {
-  if (socket.connected && (!socketRequiresLogin || socketLoggedIn)) {
+  if (socket.connected && (!socketRequiresLogin || socket.loggedIn)) {
     return Promise.resolve();
   }
 
@@ -89,7 +84,7 @@ function waitForSocketConnection() {
 
   return new Promise(function (resolve) {
     interval = setInterval(function () {
-      if (!socket.connected || !socketLoggedIn) {
+      if (!socket.connected || (socketRequiresLogin && !socket.loggedIn)) {
         return;
       }
 
