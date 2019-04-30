@@ -76,11 +76,11 @@ String.prototype.toCamelCase = function () {
 };
 
 function socketIsReady() {
-  return !socketRequiresLogin || socket.loggedIn;
+  return socket.connected && (!socketRequiresLogin || socket.loggedIn);
 }
 
 function waitForSocketConnection() {
-  if (socket.connected && socketIsReady()) {
+  if (socketIsReady()) {
     return Promise.resolve();
   }
 
@@ -88,7 +88,7 @@ function waitForSocketConnection() {
 
   return new Promise(function (resolve) {
     interval = setInterval(function () {
-      if (!socket.connected || !socketIsReady()) {
+      if (!socketIsReady()) {
         return;
       }
 
