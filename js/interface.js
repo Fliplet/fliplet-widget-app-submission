@@ -90,7 +90,7 @@ function waitForSocketConnection() {
 
   var interval;
 
-  return new Promise(function () {
+  return new Promise(function (resolve, reject) {
     interval = setInterval(function () {
       if (!socketConnected) {
         return;
