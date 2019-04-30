@@ -61,7 +61,7 @@ var hasAllScreenshots = false;
 var screenshotValidationNotRequired = false;
 var spinner = '<i class="fa fa-spinner fa-pulse fa-fw fa-lg"></i>';
 
-var socketRequiresLogin = true
+var socketRequiresLogin = true;
 var socket = Fliplet.Socket({
   login: socketRequiresLogin
 });
