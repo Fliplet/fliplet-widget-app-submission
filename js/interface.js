@@ -61,8 +61,9 @@ var hasAllScreenshots = false;
 var screenshotValidationNotRequired = false;
 var spinner = '<i class="fa fa-spinner fa-pulse fa-fw fa-lg"></i>';
 
+var socketRequiresLogin = true
 var socket = Fliplet.Socket({
-  login: true
+  login: socketRequiresLogin
 });
 var socketClientId;
 var socketLoggedIn = false;
@@ -80,7 +81,7 @@ String.prototype.toCamelCase = function () {
 };
 
 function waitForSocketConnection() {
-  if (socket.connected && socketLoggedIn) {
+  if (socket.connected && (!socketRequiresLogin || socketLoggedIn)) {
     return Promise.resolve();
   }
 
