@@ -61,18 +61,14 @@ var hasAllScreenshots = false;
 var screenshotValidationNotRequired = false;
 var spinner = '<i class="fa fa-spinner fa-pulse fa-fw fa-lg"></i>';
 
-var loginToSocket = true;
 var socket = Fliplet.Socket({
-  login: loginToSocket
+  login: true
 });
 var socketClientId;
-var socketConnected = false;
+var socketLoggedIn = false;
 
-socket.on(loginToSocket ? 'loginSuccess' : 'connect', function () {
-  socketConnected = true;
-});
-socket.on('disconnect', function () {
-  socketConnected = false;
+socket.on('loginSuccess', function () {
+  socketLoggedIn = true;
 });
 
 /* FUNCTIONS */
@@ -84,7 +80,7 @@ String.prototype.toCamelCase = function () {
 };
 
 function waitForSocketConnection() {
-  if (socketConnected) {
+  if (socket.connected && socketLoggedIn) {
     return Promise.resolve();
   }
 
@@ -92,7 +88,7 @@ function waitForSocketConnection() {
 
   return new Promise(function (resolve) {
     interval = setInterval(function () {
-      if (!socketConnected) {
+      if (!socket.connected || !socketLoggedIn) {
         return;
       }
 
