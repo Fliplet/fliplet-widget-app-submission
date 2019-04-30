@@ -75,8 +75,12 @@ String.prototype.toCamelCase = function () {
   }).replace(/([^A-Z-a-z])/g, '').toLowerCase();
 };
 
+function sockIsReady() {
+  return !socketRequiresLogin || socket.loggedIn;
+}
+
 function waitForSocketConnection() {
-  if (socket.connected && (!socketRequiresLogin || socket.loggedIn)) {
+  if (socket.connected && sockIsReady()) {
     return Promise.resolve();
   }
 
@@ -84,7 +88,7 @@ function waitForSocketConnection() {
 
   return new Promise(function (resolve) {
     interval = setInterval(function () {
-      if (!socket.connected || (socketRequiresLogin && !socket.loggedIn)) {
+      if (!socket.connected || !sockIsReady()) {
         return;
       }
 
