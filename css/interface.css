@@ -148,6 +148,10 @@
   margin: 0;
 }
 
+.help-block a {
+  cursor: pointer;
+}
+
 .nav-tabs > li > a span {
   display: block;
   text-align: center;
