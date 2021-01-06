@@ -311,7 +311,7 @@ function loadAppStoreData() {
     if (name === "fl-store-revNotes") {
       defaultReviewNotes = $('[name="' + name + '"]').val();
       
-      // avoid resetting to empty string since this field has a default value
+      // Avoid resetting to empty string since this field has a default value
       if (appStoreSubmission.data[name]) {
         $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
       }
@@ -322,7 +322,7 @@ function loadAppStoreData() {
     if (name === "fl-store-releaseNotes") {
       defaultReleaseNotes = $('[name="' + name + '"]').val();
       
-      // avoid resetting to empty string since this field has a default value
+      // Avoid resetting to empty string since this field has a default value
       if (appStoreSubmission.data[name]) {
         $('[name="' + name + '"]').val(appStoreSubmission.data[name]);
       }
