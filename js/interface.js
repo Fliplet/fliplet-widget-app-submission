@@ -2551,11 +2551,15 @@ $('[data-toggle="tooltip"]').tooltip({
   delay: { "show": 500, "hide": 300 }
 });
 
-$('[data-template="fl-store-releaseNotes"]').on('click', function() {
+$('[data-template="fl-store-releaseNotes"]').on('click', function(e) {
+  e.preventDefault();
+
   $('[name=fl-store-releaseNotes]').val(defaultReleaseNotes);
 })
 
-$('[data-template="fl-store-revNotes"]').on('click', function() {
+$('[data-template="fl-store-revNotes"]').on('click', function(e) {
+  e.preventDefault();
+
   $('[name=fl-store-revNotes]').val(defaultReviewNotes);
 })
 
