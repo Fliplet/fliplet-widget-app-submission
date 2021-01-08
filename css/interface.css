@@ -544,8 +544,3 @@ h3 small {
   align-items: center;
   display: flex;
 }
-
-.display-column {
-  display: flex;
-  flex-direction: column;
-}
