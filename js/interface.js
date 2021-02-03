@@ -1378,7 +1378,9 @@ function cloneCredentials(credentialKey, submission, saveData) {
 
     return Promise.resolve();
   }).catch(function(err) {
-    return Fliplet.App.Submissions.update(submission.id, submission.data);
+    if (err.status === 400) {
+      return Fliplet.App.Submissions.update(submission.id, submission.data);
+    }
   });
 }
 
