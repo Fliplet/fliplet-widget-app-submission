@@ -3672,6 +3672,14 @@ $('.browse-files').on('click', function (e) {
   });
 });
 
+// Scroll accordion tab to the top
+$('.panel-collapse').on('shown.bs.collapse', function () {
+  var $panel = $(this).closest('.panel');
+  $('html,body').animate({
+    scrollTop: $panel.offset().top
+  }, 500);
+});
+
 // Listen for 2FA code when requested
 socket.on('aab.apple.login.2fa', function (data) {
   socketClientId = data.clientId || socketClientId;
