@@ -895,14 +895,12 @@ Bug fixes [for updates only]
                     <label for="fl-store-revNotes">Notes</label>
                     <p class="help-block label-helper">
                       <small>
-                        Optional
-                        <br />
                         <a href="#" data-template="fl-store-revNotes">Use template</a>
                       </small >
                     </p>
                   </div>
                   <div class="col-sm-8">
-                    <textarea name="fl-store-revNotes" class="form-control" id="fl-store-revNotes" rows="10">[PLEASE REVIEW AND UPDATE OR REMOVE SECTION IN SQUARE BRACKETS]
+                    <textarea name="fl-store-revNotes" class="form-control" id="fl-store-revNotes" rows="10" data-error="Please enter your notes" required>[PLEASE REVIEW AND UPDATE OR REMOVE SECTION IN SQUARE BRACKETS]
 
 Dear Apple
 
@@ -919,6 +917,7 @@ If you have any questions please reply and I will be happy to answer any questio
 
 [Name]
                     </textarea>
+                    <div class="help-block with-errors"></div>
                   </div>
                 </div>
               </div>
@@ -1788,7 +1787,7 @@ If you have any questions please reply and I will be happy to answer any questio
                     <p class="help-block label-helper"><small>Authentication Key can be created <a target="_blank" href="https://developer.apple.com/account/ios/certificate/key">here</a></small></p>
                   </div>
                   <div class="col-sm-8">
-                    <textarea 
+                    <textarea
                       name="fl-push-authKey"
                       class="form-control"
                       id="fl-push-authKey"
