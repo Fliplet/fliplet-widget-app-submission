@@ -72,7 +72,6 @@ var hasAllScreenshots = false;
 var screenshotValidationNotRequired = false;
 var spinner = '<i class="fa fa-spinner fa-pulse fa-fw fa-lg"></i>';
 
-// eslint-disable-next-line no-unused-vars
 var formInputSelectors = [
   '#appStoreConfiguration :input',
   '#enterpriseConfiguration :input',
