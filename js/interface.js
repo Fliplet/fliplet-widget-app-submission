@@ -2852,7 +2852,9 @@ $('[data-template="fl-store-releaseNotes"]').on('click', function(e) {
 $('[data-template="fl-store-revNotes"]').on('click', function(e) {
   e.preventDefault();
 
-  $('[name=fl-store-revNotes]').val(defaultReviewNotes);
+  $('[name=fl-store-revNotes]').focus().val(defaultReviewNotes);
+  $('[name=fl-store-revNotes]').parents('.form-group').removeClass('has-error');
+  $('[name=fl-store-revNotes]').next('.with-errors').html('');
 });
 
 $('.appStore-2fa-sms, .enterprise-2fa-sms').find('a').on('click', function(e) {
