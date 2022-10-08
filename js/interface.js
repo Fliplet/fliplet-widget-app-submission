@@ -2136,7 +2136,7 @@ function checkSubmissionStatus(origin, iosSubmissions) {
         moment(submission.submittedAt).format('MMM Do YYYY, h:mm:ss a') :
         '';
       build[submission.status] = true;
-      build.fileUrl = appBuild ? appBuild.url : '';
+      build.fileUrl = appBuild ? removeAuthTokenFromFileUrl(appBuild.url) : '';
 
       if (submission.result.message) {
         build.message = submission.result.message;
@@ -2147,7 +2147,7 @@ function checkSubmissionStatus(origin, iosSubmissions) {
       }
 
       if (userInfo && userInfo.user && (userInfo.user.isAdmin || userInfo.user.isImpersonating)) {
-        build.debugFileUrl = debugHtmlPage ? debugHtmlPage.url : '';
+        build.debugFileUrl = debugHtmlPage ? removeAuthTokenFromFileUrl(debugHtmlPage.url) : '';
       }
 
       buildsData.push(build);
@@ -2747,6 +2747,16 @@ function toggleLoginForm(form, state, data) {
   }
 
   Fliplet.Widget.autosize();
+}
+
+function removeAuthTokenFromFileUrl(url) {
+  var tokenFound = url.match(/auth_token=([A-z0-9-]+)/);
+
+  if (tokenFound) {
+    return url.replace(tokenFound[0], '');
+  }
+
+  return url;
 }
 
 $('form').validator({
