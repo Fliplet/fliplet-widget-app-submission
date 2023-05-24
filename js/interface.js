@@ -837,7 +837,7 @@ function submissionBuild(appSubmission, origin) {
     $('.button-' + origin + '-request').html('Request App <i class="fa fa-paper-plane"></i>');
     $('.button-' + origin + '-request').prop('disabled', false);
 
-    var errorJSON = error && error.responseJSON || {};
+    var errorJSON = err && err.responseJSON || {};
 
     if (errorJSON.type && errorJSON.type.indexOf('billing.enforcement') > -1) {
       Fliplet.Studio.emit('show-enforcement-warning', errorJSON);
