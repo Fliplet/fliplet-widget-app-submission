@@ -1234,11 +1234,11 @@ function saveAppStoreData(request) {
     if (name === 'fl-store-distribution') {
       newValue = $('[name="' + name + '"]:checked').val();
 
-      if (newValue === 'previous-file' && appStorePreviousCredential) {
+      if (newValue === 'previous-file' && appStorePreviousCredential && appStorePreviousCredential.teamId) {
         pushData.apnTeamId = appStorePreviousCredential.teamId;
       }
 
-      if (newValue === 'generate-file' || newValue === 'upload-file') {
+      if ((newValue === 'generate-file' || newValue === 'upload-file') && $('#fl-store-teams').val()) {
         pushData.apnTeamId = $('#fl-store-teams').val();
       }
 
@@ -1307,11 +1307,11 @@ function saveEnterpriseData(request) {
     if (name === 'fl-ent-distribution') {
       var newValue = $('[name="' + name + '"]:checked').val();
 
-      if (newValue === 'previous-file' && enterprisePreviousCredential) {
+      if (newValue === 'previous-file' && enterprisePreviousCredential && enterprisePreviousCredential.teamId) {
         pushData.apnTeamId = enterprisePreviousCredential.teamId;
       }
 
-      if (newValue === 'generate-file' || newValue === 'upload-file') {
+      if ((newValue === 'generate-file' || newValue === 'upload-file') && $('#fl-ent-teams').val()) {
         pushData.apnTeamId = $('#fl-ent-teams').val();
       }
 
@@ -1327,7 +1327,10 @@ function saveEnterpriseData(request) {
     if (name === 'fl-ent-teamId') {
       if (enterpriseManual) {
         data[name] = value;
-        pushData.apnTeamId = enterpriseTeamId;
+
+        if (enterpriseTeamId) {
+          pushData.apnTeamId = enterpriseTeamId;
+        }
 
         return;
       }
