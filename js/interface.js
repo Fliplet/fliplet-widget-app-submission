@@ -2182,9 +2182,9 @@ function submissionChecker(submissions) {
     return submission.status === 'completed';
   });
 
-  // Get the Submission data from the first completed submission,
+  // Get the Submission data from the latest completed submission,
   // it has the certification values that are in use on the app store.
-  previousAppStoreSubmission = _.minBy(completedAsub, function(el) {
+  previousAppStoreSubmission = _.maxBy(completedAsub, function(el) {
     return el.id;
   });
 
@@ -2233,9 +2233,9 @@ function submissionChecker(submissions) {
     return submission.status === 'completed';
   });
 
-  // Get the Submission data from the first completed submission,
+  // Get the Submission data from the latest completed submission,
   // it has certification values that are in use on the developer portal.
-  previousEnterpriseStoreSubmission = _.minBy(completedEsub, function(el) {
+  previousEnterpriseStoreSubmission = _.maxBy(completedEsub, function(el) {
     return el.id;
   });
 
