@@ -2096,12 +2096,18 @@ function checkSubmissionStatus(origin, iosSubmissions) {
   });
 
   var buildsData = [];
+  var submissionTypePrefixes = {
+    appStore: 'fl-store-',
+    enterprise: 'fl-ent-',
+    unsigned: 'fl-uns-'
+  };
 
   if (submissionsToShow.length) {
     submissionsToShow.forEach(function(submission) {
       var build = {};
       var appBuild;
       var debugHtmlPage;
+      var submissionType = _.get(submission, 'data.submissionType');
 
       // Default copy for testing status for different users
       if (submission.status === 'ready-for-testing') {
@@ -2137,14 +2143,15 @@ function checkSubmissionStatus(origin, iosSubmissions) {
       }
 
       build.id = submission.id;
-      build.updatedAt = ((submission.status === 'completed' || submission.status === 'failed' || submission.status === 'cancelled' || submission.status === 'ready-for-testing' || submission.status === 'tested') && submission.updatedAt) ?
-        moment(submission.updatedAt).format('MMM Do YYYY, h:mm:ss a') :
-        '';
-      build.submittedAt = ((submission.status === 'queued' || submission.status === 'submitted') && submission.submittedAt) ?
-        moment(submission.submittedAt).format('MMM Do YYYY, h:mm:ss a') :
-        '';
+      build.updatedAt = ((submission.status === 'completed' || submission.status === 'failed' || submission.status === 'cancelled' || submission.status === 'ready-for-testing' || submission.status === 'tested') && submission.updatedAt)
+        ? moment(submission.updatedAt).format('MMM Do YYYY, h:mm:ss a')
+        : '';
+      build.submittedAt = ((submission.status === 'queued' || submission.status === 'submitted') && submission.submittedAt)
+        ? moment(submission.submittedAt).format('MMM Do YYYY, h:mm:ss a')
+        : '';
       build[submission.status] = true;
       build.fileUrl = appBuild ? removeAuthTokenFromFileUrl(appBuild.url) : '';
+      build.versionNumber = _.get(submission, ['data', submissionTypePrefixes[submissionType] + 'versionNumber']);
 
       if (submission.result.message) {
         build.message = submission.result.message;
