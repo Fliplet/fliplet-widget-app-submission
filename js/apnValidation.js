@@ -1,8 +1,8 @@
 
 const authKeyInput = document.getElementById('fl-push-authKey');
 const keyIdInput = document.getElementById('fl-push-keyId');
-const teamIdInput = document.getElementById('fl-store-teams'); 
-const bundleIdInput = document.getElementById('fl-store-bundleId'); 
+const teamIdInput = document.getElementById('fl-store-teams');
+const bundleIdInput = document.getElementById('fl-store-bundleId');
 
 const testConfigButton = document.getElementById('fl-push-testConfigButton');
 const testResultMessage = document.getElementById('fl-push-testResultMessage');
@@ -25,8 +25,8 @@ const mappedMessages = {
   TooManyRequests: MESSAGE.ERROR_SERVICE,
   InternalServerError: MESSAGE.ERROR_SERVICE,
   ServiceUnavailable: MESSAGE.ERROR_SERVICE,
-  Shutdown: MESSAGE.ERROR_SERVICE,
-}
+  Shutdown: MESSAGE.ERROR_SERVICE
+};
 
 const renderResultMessage = (resultMessage) => {
   if (!resultMessage) {
@@ -52,13 +52,13 @@ const validateApnKey = async({ apnAuthKey, apnKeyId, apnTeamId, apnTopic }) => {
     const response = await fetch(`/v1/apps/${currentAppId}/notifications/validate-apns-config`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ apnAuthKey, apnKeyId, apnTeamId, apnTopic }),
+      body: JSON.stringify({ apnAuthKey, apnKeyId, apnTeamId, apnTopic })
     });
 
     if (response.status === 200) {
-      const { 0: { message: { 0: { errorMsg } } } } = response.json();
+      const { 0: { message: { 0: { errorMsg } } } } = await (response.json());
   
       const message = mappedMessages[errorMsg];
 
@@ -68,7 +68,7 @@ const validateApnKey = async({ apnAuthKey, apnKeyId, apnTeamId, apnTopic }) => {
     }
 
     return MESSAGE.ERROR_SERVER;
-  } catch (error) { 
+  } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to send message:', error);
 
