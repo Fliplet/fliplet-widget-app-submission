@@ -2149,13 +2149,20 @@ function checkSubmissionStatus(origin, iosSubmissions) {
       build.submittedAt = ((submission.status === 'queued' || submission.status === 'submitted') && submission.submittedAt)
         ? moment(submission.submittedAt).format('MMM Do YYYY, h:mm:ss a')
         : '';
-      build[submission.status] = true;
+
       build.fileUrl = appBuild ? removeAuthTokenFromFileUrl(appBuild.url) : '';
       build.versionNumber = _.get(submission, ['data', submissionTypePrefixes[submissionType] + 'versionNumber']);
 
       if (submission.result.message) {
         build.message = submission.result.message;
+        
+        const gracefullyFailedMessage = "The app has been uploaded to the App Store Connect but could not be submitted for review. Please log in on https://appstoreconnect.apple.com/ to finish up the process and submit the app for review.";
+        if (submission.result.message === gracefullyFailedMessage) {
+          submission.status = 'gracefullyFailed';
+        }
       }
+
+      build[submission.status] = true;
 
       if (submission.result.errorCode < 0) {
         build.message = 'There was an error processing your submission. To learn more, go to <a target="_blank" href="https://help.fliplet.com/common-apple-issues/">help.fliplet.com/common-apple-issues</a>.';
