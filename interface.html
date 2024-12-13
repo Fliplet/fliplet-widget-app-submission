@@ -1887,10 +1887,13 @@ If you have any questions please reply and I will be happy to answer any questio
             <div class="app-build-progress-holder"><i class="fa fa-bell"></i> \{{testingStatus}}</div>
             \{{#if fileUrl}}
             <div class="download-build"><a href="\{{fileUrl}}"><i class="fa fa-download"></i> Download file</a></div>\{{/if}}
+            \{{#if isAdmin}}
             \{{#if debugFileUrl}}
             <div class="download-build"><span class="label label-default">Admin</span> <a href="\{{debugFileUrl}}"><i class="fa fa-download"></i> Download debug app</a> <a href="https://support.apple.com/en-us/HT204460"><i class="fa fa-fw fa-question-circle-o"></i></a></div>
             \{{else}}
-              <div class="download-build"><span class="label label-default">Admin</span> Debug app not available</div>\{{/if}}
+            <div class="download-build"><span class="label label-default">Admin</span> Debug app not available</div>
+            \{{/if}}
+            \{{/if}}
           </td>
           <td class="app-build-details">
             \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-clock-o"></i> Ready on:</span> \{{updatedAt}}</span>\{{/if}}
@@ -1927,7 +1930,7 @@ If you have any questions please reply and I will be happy to answer any questio
             \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-flag-checkered"></i> Finished on:</span> \{{updatedAt}}</span>\{{/if}}
             <div class="app-build-name">\{{{message}}}</div>
           </td>
-          \{{/if}} 
+          \{{/if}}
           \{{#if cancelled}}
           <td class="app-build-progress warning">
             <div class="app-build-progress-holder"><i class="fa fa-ban"></i> Canceled</div>
