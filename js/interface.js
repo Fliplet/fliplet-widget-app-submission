@@ -2155,8 +2155,9 @@ function checkSubmissionStatus(origin, iosSubmissions) {
 
       if (submission.result.message) {
         build.message = submission.result.message;
-        
-        const gracefullyFailedMessage = "The app has been uploaded to the App Store Connect but could not be submitted for review. Please log in on https://appstoreconnect.apple.com/ to finish up the process and submit the app for review.";
+
+        const gracefullyFailedMessage = 'The app has been uploaded to the App Store Connect but could not be submitted for review. Please log in on https://appstoreconnect.apple.com/ to finish up the process and submit the app for review.';
+
         if (submission.result.message === gracefullyFailedMessage) {
           submission.status = 'gracefullyFailed';
         }
@@ -2169,6 +2170,8 @@ function checkSubmissionStatus(origin, iosSubmissions) {
       }
 
       if (userInfo && userInfo.user && (userInfo.user.isAdmin || userInfo.user.isImpersonating)) {
+        build.isAdmin = userInfo.user.isAdmin || userInfo.user.isImpersonating;
+        console.log('build.isAdmin', build.isAdmin);
         build.debugFileUrl = debugHtmlPage ? removeAuthTokenFromFileUrl(debugHtmlPage.url) : '';
       }
 
