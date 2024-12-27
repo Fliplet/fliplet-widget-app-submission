@@ -2170,11 +2170,9 @@ function checkSubmissionStatus(origin, iosSubmissions) {
       }
 
       if (userInfo && userInfo.user && (userInfo.user.isAdmin || userInfo.user.isImpersonating)) {
-        build.debugFileUrl = debugHtmlPage ? removeAuthTokenFromFileUrl(debugHtmlPage.url) : '';
-      }
-
-      if (userInfo && userInfo.user && (userInfo.user.isAdmin || userInfo.user.isImpersonating)) {
         build.isAdmin = userInfo.user.isAdmin || userInfo.user.isImpersonating;
+        console.log('build.isAdmin', build.isAdmin);
+        build.debugFileUrl = debugHtmlPage ? removeAuthTokenFromFileUrl(debugHtmlPage.url) : '';
       }
 
       buildsData.push(build);
