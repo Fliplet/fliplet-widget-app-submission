@@ -1,9 +1,5 @@
-<h3>iOS distribution settings</h3>
-<p>Before your app can be distributed, we need some additional information. Select the tab(s) that match how you want to distribute your app and add the data required. Once you submit your information and assets, we will process your request and distribute
-  your app in your prefered ways within 2 business days. Apple may take up to 5 days to review apps.<br><br> For more information about these fields and examples, see <a href="https://developer.apple.com/app-store/product-page/" target="_blank">Apple's official recommendations</a>.</p>
-<hr>
 <div class="form-horizontal">
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="nav nav-tabs" role="tablist" id="nav-tabs">
     <li role="presentation" class="active" id="appstore-control">
       <a href="#appstore-tab" aria-controls="appstore" role="tab" data-toggle="tab">
         <span>App Store</span>
@@ -31,11 +27,21 @@
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fl-sb-appStore active" id="appstore-tab">
+      <div class="alert alert-warning">
+        <h4>App privacy questions requirement</h4>
+        <p>Starting <strong>December 8, 2020</strong>, all new apps and app updates submitted to Apple will require information about your app’s privacy practices, including the practices of third-party partners whose code you integrate into your app.</p>
+        <p>After your app is submitted to the app store, an Apple user with <em>Account Holder</em> or <em>Admin role</em> needs to log in to <em>App Store Connect</em> and complete the privacy questions.</p>
+        <p><strong>This only needs to be completed once each app and must be kept up to date.</strong></p>
+        <p><a href="https://developer.apple.com/app-store/app-privacy-details/" target="_blank">Learn more</a></p>
+      </div>
       <div class="app-build-appstore-status-holder app-build-status-holder">
         <!-- App Status Area -->
       </div>
-      <p class="text-info">Complete this section to submit your app to the <a href="https://www.apple.com/ios/app-store/" target="_blank">Apple App Store</a>.</p>
-      <form data-disable="false" role="form" id="appStoreConfiguration">
+      <p class="text-info">
+        Complete this section to submit your app to the <a href="https://www.apple.com/ios/app-store/" target="_blank">Apple App Store</a>.
+        Make sure your app meets the <a href="https://developer.apple.com/app-store/review/guidelines/" target="_blank">Apple App Store Review Guidelines.</a>
+      </p>
+      <form data-toggle="validator" data-disable="false" role="form" id="appStoreConfiguration" autocomplete="off">
         <div class="panel-group" id="accordionAppStore" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default app-details-appStore">
             <div class="panel-heading" role="tab" id="appStoreSettingsHeading">
@@ -45,13 +51,11 @@
               <div class="panel-body">
                 <div class="form-group clearfix app-list-name">
                   <div class="col-sm-4 control-label">
-                    <label>App list name</label>
-                    <p class="help-block label-helper"><small>The name of your app seen in the App Store</small></p>
-                    <p><a href="#" data-change-settings>Change</a></p>
+                    <label>App store listing name</label>
                   </div>
                   <div class="col-sm-8 form-static">
-                    <input type="text" name="fl-store-appName" class="form-control-static" id="fl-store-appName" data-validate="true" disabled required/>
-                    <div class="help-block text-danger app-details-error">Click the change button to enter an app list name</div>
+                    <input type="text" name="fl-store-appName" class="form-control" id="fl-store-appName" data-validate="true" maxlength="30" required />
+                    <p class="help-block"><small>App names are limited to 30 characters.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix app-icon-name">
@@ -62,6 +66,7 @@
                   <div class="col-sm-8">
                     <img class="setting-app-icon userUploaded hidden" src="#" />
                     <img class="setting-app-icon default" src="{{ asset 'img/app-icon.png' }}" />
+                    <div class="help-block text-danger image-details-error hidden">File missing, please make sure the file is accessible.</div>
                     <div class="help-block text-danger app-details-error">Upload a 1024 × 1024 pixels image. Click the change button to upload a new app icon.</div>
                     <div class="help-block text-warning app-details-warning">This image is not the recommended size and may result in a low quality image.</div>
                   </div>
@@ -74,6 +79,7 @@
                   <div class="col-sm-8">
                     <div class="setting-splash-screen userUploaded hidden" style="background-image: url();"></div>
                     <div class="setting-splash-screen default" data-appstore-default-splash-url="{{ asset 'img/splash-screen.png' }}" style="background-image: url({{ asset 'img/splash-screen.png' }});"></div>
+                    <div class="help-block text-danger splash-details-error hidden">File missing, please make sure the file is accessible.</div>
                     <div class="help-block text-danger app-details-error">Click the change button to upload a splash screen</div>
                     <div class="help-block text-warning app-details-warning">This image is not the recommended size and may result in a low quality image.</div>
                   </div>
@@ -90,24 +96,15 @@
                       </label>
                     </div>
 
-                    <div data-item="fl-store-screenshots-new-warning" class="hidden-area warning">
-                      <p>Apple requires you to upload up to 4 screenshots of your app for mobile and tablet devices. We could not find any screenshots in your folders, please go to <a href="#" onclick="Fliplet.Studio.emit('navigate', { name: 'launchAssets' })">App Settings</a> to generate your screenshots.</p>
+                    <div data-item="fl-store-screenshots-new-warning" class="alert alert-inset alert-danger hidden">
+                      <p>Apple requires you to upload up to 4 screenshots of your app for all the device types listed below. Please go to <a href="#" data-change-assets>App Settings</a> to generate your screenshots.</p>
                     </div>
-                    <div data-item="fl-store-screenshots-new" class="hidden-area">
-                      <p>We will use the following screenshot in your app listing in the order shown below.<br>
-                      <small>We order the screenshots alphabetically, to reorder go to <a href="#" onclick="Fliplet.Studio.emit('navigate', { name: 'fileManager' })">File Manager</a> and rename your screenshots.</small></p>
-
-                      <div class="row screenshot-previews">
-                        <div class="col-xs-12"><strong>Mobile</strong></div>
-                        <div class="mobile-thumbs"></div>
-                      </div>
-                      <div class="row screenshot-previews">
-                        <div class="col-xs-12"><strong>Tablet</strong></div>
-                        <div class="tablet-thumbs"></div>
-                      </div>
-
-                      <p>If you want to generate or upload new screenshots go to <a href="#" onclick="Fliplet.Studio.emit('navigate', { name: 'launchAssets' })">App Settings</a>.</p>
+                    <div data-item="fl-store-screenshots-mobilex-missing" class="alert alert-inset alert-warning hidden">Starting <strong>March 27, 2019</strong> all new apps and app updates for iPhone or iPad need to include screenshots for the iPhone 6.5-inch display.</div>
+                    <div data-item="fl-store-screenshots-new" class="alert alert-inset alert-info hidden">
+                      <p>We will use the following screenshots in your app listing in the order shown below. <strong>Screenshots are uploaded alphabetically.</strong> To reorder them, go to <a href="#" class="browse-files">File Manager</a> and rename your screenshots. To generate or upload new screenshots go to <a href="#" data-change-assets>App Settings</a>.</p>
+                      <div class="screenshot-thumb-containers"></div>
                     </div>
+                    <div class="help-block text-danger screenshots-details-error hidden">Files missing, please make sure the files are accessible.</div>
 
                     <div class="radio radio-icon">
                       <input type="radio" id="fl-store-screenshots-existing" name="fl-store-screenshots" value="existing">
@@ -116,9 +113,9 @@
                       </label>
                     </div>
 
-                    <div data-item="fl-store-screenshots-existing" class="hidden-area">
-                      <p>We will not upload new screenshots, we will use the existing screenshots on the app listing. By selecting this option you are confirming that you already have an app listing on the Apple App Store and that it contains the screenshots you want to be publicaly available.</p>
-                      <p class="text-warning">The app submission will fail if the app listing doesn’t contain screenshots.</p>
+                    <div data-item="fl-store-screenshots-existing" class="alert alert-inset alert-warning hidden">
+                      <p>Apple will use the existing screenshots on the app listing and we will not upload new screenshots. By selecting this option you are confirming that you already have an app listing on the Apple App Store and that it contains the screenshots you want to be publicly available.</p>
+                      <p><strong>The app submission will fail if the app listing doesn’t contain all required screenshots.</strong></p>
                     </div>
 
                   </div>
@@ -136,12 +133,13 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-iconName">App icon name</label>
-                    <p class="help-block label-helper"><small>The name below the icon on the home screen.</small></p>
+                    <p class="help-block label-helper"><small>The name below the icon on the home screen. Note that the app icon name will only display
+                    a maximum of 13 characters</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-iconName" class="form-control" id="fl-store-iconName" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <input type="text" name="fl-store-iconName" class="form-control" id="fl-store-iconName" data-error="Please enter an app icon name" maxlength="30" required />
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
+                    <p class="help-block"><small>App names are limited to 30 characters.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -177,80 +175,82 @@
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label>Application Primary Category</label>
-                    <p class="help-block label-helper"><small>The category that best describes this app. For more information, see the <a href="https://itunesconnect.apple.com/itc/static/category_definitions" target="_blank">App Store Category Definitions.</a></small></p>
+                    <label>App primary category</label>
+                    <p class="help-block label-helper"><small>The category that best describes this app. For more information, see the <a href="https://developer.apple.com/app-store/categories/" target="_blank">App Store Category Definitions.</a></small></p>
                   </div>
                   <div class="col-sm-8">
                     <label for="fl-store-category1" class="select-proxy-display">
                       <select id="fl-store-category1" name="fl-store-category1" data-label="select" class="hidden-select form-control" data-error="Please select a category" required>
                         <option value="">-- Primary Category</option>
-                        <option value="Book">Books</option>
-                        <option value="Business">Business</option>
-                        <option value="Apps.Catalogs">Catalogs</option>
-                        <option value="Education">Education</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Finance">Finance</option>
-                        <option value="Apps.Food_Drink">Food &amp; Drink</option>
-                        <option value="Games">Games</option>
-                        <option value="Healthcare_Fitness">Health &amp; Fitness</option>
-                        <option value="Lifestyle">Lifestyle</option>
-                        <option value="Kids">Kids</option>
-                        <option value="Apps.Newsstand">Magazines &amp; Newspapers</option>
-                        <option value="Medical">Medical</option>
-                        <option value="Music">Music</option>
-                        <option value="Navigation">Navigation</option>
-                        <option value="News">News</option>
-                        <option value="Photography">Photo &amp; Video</option>
-                        <option value="Productivity">Productivity</option>
-                        <option value="Reference">Reference</option>
-                        <option value="Apps.Shopping">Shopping</option>
-                        <option value="SocialNetworking">Social Networking</option>
-                        <option value="Sports">Sports</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Utilities">Utilities</option>
+                        <option value="BOOKS">Books</option>
+                        <option value="BUSINESS">Business</option>
+                        <option value="DEVELOPER_TOOLS">Developer Tools</option>
+                        <option value="EDUCATION">Education</option>
+                        <option value="ENTERTAINMENT">Entertainment</option>
+                        <option value="FINANCE">Finance</option>
+                        <option value="FOOD_AND_DRINK">Food &amp; Drink</option>
+                        <option value="GAMES">Games</option>
+                        <option value="GRAPHICS_AND_DESIGN">Graphics &amp; Design</option>
+                        <option value="HEALTH_AND_FITNESS">Health &amp; Fitness</option>
+                        <option value="LIFESTYLE">Lifestyle</option>
+                        <option value="MAGAZINES_AND_NEWSPAPERS">Magazines &amp; Newspapers</option>
+                        <option value="MEDICAL">Medical</option>
+                        <option value="MUSIC">Music</option>
+                        <option value="NAVIGATION">Navigation</option>
+                        <option value="NEWS">News</option>
+                        <option value="PHOTO_AND_VIDEO">Photo &amp; Video</option>
+                        <option value="PRODUCTIVITY">Productivity</option>
+                        <option value="REFERENCE">Reference</option>
+                        <option value="SHOPPING">Shopping</option>
+                        <option value="SOCIAL_NETWORKING">Social Networking</option>
+                        <option value="SPORTS">Sports</option>
+                        <option value="STICKERS">Stickers</option>
+                        <option value="TRAVEL">Travel</option>
+                        <option value="UTILITIES">Utilities</option>
+                        <option value="WEATHER">Weather</option>
                       </select>
                       <span class="icon fa fa-chevron-down"></span>
-                      <span class="select-value-proxy">-- Primary Category</span>
                     </label>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label>Application Secondary Category</label>
-                    <p class="help-block label-helper"><small>The secondary category that best describes this app. For more information, see the <a href="https://itunesconnect.apple.com/itc/static/category_definitions" target="_blank">App Store Category Definitions.</a></small></p>
+                    <label>App secondary category (optional)</label>
+                    <p class="help-block label-helper"><small>The secondary category that best describes this app. For more information, see the <a href="https://developer.apple.com/app-store/categories/" target="_blank">App Store Category Definitions.</a></small></p>
                   </div>
                   <div class="col-sm-8">
                     <label for="fl-store-category2" class="select-proxy-display">
-                      <select id="fl-store-category2" name="fl-store-category2" data-label="select" class="hidden-select form-control" data-nomatch="#fl-store-category1" data-nomatch-error="Primary and secondary categories can not be the same. Please select a different one." data-error="Please select a subcategory" required>
-                        <option value="">-- Select a Subcategory</option>
-                        <option value="Book">Books</option>
-                        <option value="Business">Business</option>
-                        <option value="Apps.Catalogs">Catalogs</option>
-                        <option value="Education">Education</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Finance">Finance</option>
-                        <option value="Apps.Food_Drink">Food &amp; Drink</option>
-                        <option value="Games">Games</option>
-                        <option value="Healthcare_Fitness">Health &amp; Fitness</option>
-                        <option value="Lifestyle">Lifestyle</option>
-                        <option value="Kids">Kids</option>
-                        <option value="Apps.Newsstand">Magazines &amp; Newspapers</option>
-                        <option value="Medical">Medical</option>
-                        <option value="Music">Music</option>
-                        <option value="Navigation">Navigation</option>
-                        <option value="News">News</option>
-                        <option value="Photography">Photo &amp; Video</option>
-                        <option value="Productivity">Productivity</option>
-                        <option value="Reference">Reference</option>
-                        <option value="Apps.Shopping">Shopping</option>
-                        <option value="SocialNetworking">Social Networking</option>
-                        <option value="Sports">Sports</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Utilities">Utilities</option>
+                      <select id="fl-store-category2" name="fl-store-category2" data-label="select" class="hidden-select form-control" data-nomatch="#fl-store-category1" data-nomatch-error="Primary and secondary categories can not be the same. Please select a different one.">
+                        <option value="">-- Secondary category (optional)</option>
+                        <option value="BOOKS">Books</option>
+                        <option value="BUSINESS">Business</option>
+                        <option value="DEVELOPER_TOOLS">Developer Tools</option>
+                        <option value="EDUCATION">Education</option>
+                        <option value="ENTERTAINMENT">Entertainment</option>
+                        <option value="FINANCE">Finance</option>
+                        <option value="FOOD_AND_DRINK">Food &amp; Drink</option>
+                        <option value="GAMES">Games</option>
+                        <option value="GRAPHICS_AND_DESIGN">Graphics &amp; Design</option>
+                        <option value="HEALTH_AND_FITNESS">Health &amp; Fitness</option>
+                        <option value="LIFESTYLE">Lifestyle</option>
+                        <option value="MAGAZINES_AND_NEWSPAPERS">Magazines &amp; Newspapers</option>
+                        <option value="MEDICAL">Medical</option>
+                        <option value="MUSIC">Music</option>
+                        <option value="NAVIGATION">Navigation</option>
+                        <option value="NEWS">News</option>
+                        <option value="PHOTO_AND_VIDEO">Photo &amp; Video</option>
+                        <option value="PRODUCTIVITY">Productivity</option>
+                        <option value="REFERENCE">Reference</option>
+                        <option value="SHOPPING">Shopping</option>
+                        <option value="SOCIAL_NETWORKING">Social Networking</option>
+                        <option value="SPORTS">Sports</option>
+                        <option value="STICKERS">Stickers</option>
+                        <option value="TRAVEL">Travel</option>
+                        <option value="UTILITIES">Utilities</option>
+                        <option value="WEATHER">Weather</option>
                       </select>
                       <span class="icon fa fa-chevron-down"></span>
-                      <span class="select-value-proxy">-- Select a Subcategory</span>
                     </label>
                     <div class="help-block with-errors"></div>
                     <p>The secondary category can not be the same as the primary category.</p>
@@ -259,86 +259,43 @@
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label>Primary Language</label>
+                      <p class="help-block label-helper"><small>The primary language that will be set on app creation. For more information, see how <a href="https://itunespartner.apple.com/en/apps/faq/Managing%20Your%20Apps_Localization#64875326" target="_blank">to change your app's default language.</a></small></p>
                   </div>
                   <div class="col-sm-8">
-                    <label for="fl-store-language" class="select-proxy-display">
+                    <span class="fl-store-language-placeholder form-control hidden">Using default language set on Itunes</span>
+                    <label for="fl-store-language" class="dll-store-language select-proxy-display">
                     <select id="fl-store-language" name="fl-store-language" data-label="select" class="hidden-select form-control" data-error="Please select a language" required>
                       <option value="">-- Select a language</option>
-                      <option value="Afrikanns">Afrikanns</option>
-                      <option value="Albanian">Albanian</option>
-                      <option value="Arabic">Arabic</option>
-                      <option value="Armenian">Armenian</option>
-                      <option value="Basque">Basque</option>
-                      <option value="Bengali">Bengali</option>
-                      <option value="Bulgarian">Bulgarian</option>
-                      <option value="Catalan">Catalan</option>
-                      <option value="Cambodian">Cambodian</option>
-                      <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
-                      <option value="Croation">Croation</option>
-                      <option value="Czech">Czech</option>
-                      <option value="Danish">Danish</option>
-                      <option value="Dutch">Dutch</option>
-                      <option value="English" selected>English</option>
-                      <option value="Estonian">Estonian</option>
-                      <option value="Fiji">Fiji</option>
-                      <option value="Finnish">Finnish</option>
-                      <option value="French">French</option>
-                      <option value="Georgian">Georgian</option>
-                      <option value="German">German</option>
-                      <option value="Greek">Greek</option>
-                      <option value="Gujarati">Gujarati</option>
-                      <option value="Hebrew">Hebrew</option>
-                      <option value="Hindi">Hindi</option>
-                      <option value="Hungarian">Hungarian</option>
-                      <option value="Icelandic">Icelandic</option>
-                      <option value="Indonesian">Indonesian</option>
-                      <option value="Irish">Irish</option>
-                      <option value="Italian">Italian</option>
-                      <option value="Japanese">Japanese</option>
-                      <option value="Javanese">Javanese</option>
-                      <option value="Korean">Korean</option>
-                      <option value="Latin">Latin</option>
-                      <option value="Latvian">Latvian</option>
-                      <option value="Lithuanian">Lithuanian</option>
-                      <option value="Macedonian">Macedonian</option>
-                      <option value="Malay">Malay</option>
-                      <option value="Malayalam">Malayalam</option>
-                      <option value="Maltese">Maltese</option>
-                      <option value="Maori">Maori</option>
-                      <option value="Marathi">Marathi</option>
-                      <option value="Mongolian">Mongolian</option>
-                      <option value="Nepali">Nepali</option>
-                      <option value="Norwegian">Norwegian</option>
-                      <option value="Persian">Persian</option>
-                      <option value="Polish">Polish</option>
-                      <option value="Portuguese">Portuguese</option>
-                      <option value="Punjabi">Punjabi</option>
-                      <option value="Quechua">Quechua</option>
-                      <option value="Romanian">Romanian</option>
-                      <option value="Russian">Russian</option>
-                      <option value="Samoan">Samoan</option>
-                      <option value="Serbian">Serbian</option>
-                      <option value="Slovak">Slovak</option>
-                      <option value="Slovenian">Slovenian</option>
-                      <option value="Spanish">Spanish</option>
-                      <option value="Swahili">Swahili</option>
-                      <option value="Swedish ">Swedish </option>
-                      <option value="Tamil">Tamil</option>
-                      <option value="Tatar">Tatar</option>
-                      <option value="Telugu">Telugu</option>
-                      <option value="Thai">Thai</option>
-                      <option value="Tibetan">Tibetan</option>
-                      <option value="Tonga">Tonga</option>
-                      <option value="Turkish">Turkish</option>
-                      <option value="Ukranian">Ukranian</option>
-                      <option value="Urdu">Urdu</option>
-                      <option value="Uzbek">Uzbek</option>
-                      <option value="Vietnamese">Vietnamese</option>
-                      <option value="Welsh">Welsh</option>
-                      <option value="Xhosa">Xhosa</option>
+                      <option value="zh-Hant">Chinese</option>
+                      <option value="zh-Hans">Chinese (Simplified)</option>
+                      <option value="da">Danish</option>
+                      <option value="nl-NL">Dutch</option>
+                      <option value="en-AU">English (Australia)</option>
+                      <option value="en-CA">English (Canada)</option>
+                      <option value="en-GB">English (United Kingdom)</option>
+                      <option value="en-US" selected>English (United States)</option>
+                      <option value="fi">Finnish</option>
+                      <option value="fr-CA">French (Canada)</option>
+                      <option value="fr-FR">French (France)</option>
+                      <option value="de-DE">German</option>
+                      <option value="el">Greek</option>
+                      <option value="id">Indonesian</option>
+                      <option value="it">Italian</option>
+                      <option value="ja">Japanese</option>
+                      <option value="ko">Korean</option>
+                      <option value="ms">Malay</option>
+                      <option value="no">Norwegian</option>
+                      <option value="pt-BR">Portuguese (Brazil)</option>
+                      <option value="pt-PT">Portuguese (Portugal)</option>
+                      <option value="ru">Russian</option>
+                      <option value="es-MX">Spanish (Mexico)</option>
+                      <option value="es-ES">Spanish (Spain)</option>
+                      <option value="sv">Swedish</option>
+                      <option value="th">Thai</option>
+                      <option value="tr">Turkish</option>
+                      <option value="vi">Vietnamese</option>
                     </select>
                     <span class="icon fa fa-chevron-down"></span>
-                    <span class="select-value-proxy">English</span>
                   </label>
                     <div class="help-block with-errors"></div>
                   </div>
@@ -349,7 +306,7 @@
                     <p class="help-block label-helper"><small>Keywords help determine where your app displays in search results.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-keywords" class="form-control" id="fl-store-keywords" data-error="Please enter at least one keyword" required/>
+                    <input type="text" name="fl-store-keywords" class="form-control" id="fl-store-keywords" data-error="Please enter at least one keyword" required />
                     <div class="help-block with-errors"></div>
                     <p class="help-block"><small>Type a keyword and press enter or enter a comma. Keywords are limited to 100 characters total.</small></p>
                   </div>
@@ -525,7 +482,7 @@
                     <label>Price</label>
                   </div>
                   <div class="col-sm-8">
-                    Your app will be set to <strong>free app</strong> by default. If you want to change it to a paid app, please get in touch with us.
+                    Your app will be set as a <strong>free app</strong> by default. If you want to change it to a paid app, please go to the “Pricing and Availability” section in your App Store Connect account.
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -535,36 +492,33 @@
                   </div>
                   <div class="col-sm-8">
                     Your app rating is determined by Apple based on your app type. The app rating will be displayed on the App Store across all your platforms. Fliplet apps will be rated <strong>17+</strong> by default as it means an app can load web
-                    pages and youtube videos.
+                    pages in-app.
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-support">Support URL</label>
-                    <p class="help-block label-helper"><small>A URL that links to your organization's support page.</small></p>
+                    <label for="fl-store-support">Support page URL</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-support" class="form-control" id="fl-store-support" pattern="^https?:\/\/([^ ]+)+" data-error="Please enter your Support URL" required/>
+                    <input type="text" name="fl-store-support" class="form-control" id="fl-store-support" pattern="^https?:\/\/([^ ]+)+" data-error="Please enter your Support URL" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-marketing">Marketing URL</label>
-                    <p class="help-block label-helper"><small>A URL that links to your organization's marketing website.</small></p>
+                    <label for="fl-store-marketing">Marketing page URL</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-marketing" class="form-control" id="fl-store-marketing" pattern="^https?:\/\/([^ ]+)+" data-error="Please enter your Marketing URL" required/>
+                    <input type="text" name="fl-store-marketing" class="form-control" id="fl-store-marketing" pattern="^https?:\/\/([^ ]+)+" data-error="Please enter your Marketing URL" required  />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
-                    <label for="fl-store-privacy">Privacy Policy URL</label>
-                    <p class="help-block label-helper"><small>A URL that links to your organization's privacy policy.</small></p>
+                    <label for="fl-store-privacy">Privacy policy page URL</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-privacy" class="form-control" id="fl-store-privacy" pattern="^https?:\/\/([^ ]+)+" data-error="Please enter your Privacy Policy URL" required/>
+                    <input type="text" name="fl-store-privacy" class="form-control" id="fl-store-privacy" pattern="^https?:\/\/([^ ]+)+" data-error="Please enter your Privacy Policy URL" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -574,190 +528,34 @@
                     <p class="help-block label-helper"><small>The name of the person or entity that owns the exclusive rights to your app, preceded by the year the rights were obtained.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-copyright" class="form-control" id="fl-store-copyright" data-error="Please enter your Copyright text" required/>
+                    <input type="text" name="fl-store-copyright" class="form-control" id="fl-store-copyright" maxlength="200" data-validation-url-contains="#fl-store-copyright" data-validation-copyright-text="#fl-store-copyright" data-validation-url-contains-error="The copyright information must not contain URLs" data-validation-copyright-text-error="Please enter the name of who owns the rights and the current year" data-error="Please enter your Copyright text" required />
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>Eg: 2008 Acme Inc.</small></p>
+                    <p class="help-block copyright-helper"></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-releaseNotes">Release Notes</label>
-                    <p class="help-block label-helper"><small>When submitting an update to your app, use the Release Notes to tell users what is new in the new version.</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <textarea name="fl-store-releaseNotes" id="fl-store-releaseNotes" class="form-control" rows="8"></textarea>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="appStoreTechHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreTech" aria-expanded="true" aria-controls="appStoreTech"><strong>3 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
-            </div>
-            <div id="appStoreTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreTechHeading">
-              <div class="panel-body">
-                <p>We will need some technical information now, such as your developer account login details. Don't worry, these details will be safe with us. We need them in order to publish your app for you.</p>
-                <h3><small>Apple developer account details and distribution certificates</small></h3>
-
-                <div class="appStore-login-details">
-                  <div class="alert alert-info">
-                    <p>If you do not know what the developer account login details are please contact your organization's IT team.</p>
-                  </div>
-                  <div class="alert alert-warning">
-                    <p><strong>Note</strong> Two-Factor Authentication is not currently supported.</p>
-                  </div>
-
-                  <div class="form-group clearfix">
-                    <div class="col-sm-4 control-label">
-                      <label for="fl-store-appDevLogin">Apple Developer account login</label>
-                    </div>
-                    <div class="col-sm-8">
-                      <input type="email" class="form-control" id="fl-store-appDevLogin" data-error="Please enter a valid email address">
-                      <div class="help-block with-errors"></div>
-                    </div>
-                  </div>
-                  <div class="form-group clearfix">
-                    <div class="col-sm-4 control-label">
-                      <label for="fl-store-appDevPass">Apple Developer account password</label>
-                    </div>
-                    <div class="col-sm-8">
-                      <input type="password" class="form-control" id="fl-store-appDevPass" data-error="Please enter a password">
-                      <div class="help-block with-errors"></div>
-                      <p class="help-block label-helper"><small>This password will be encrypted, safely stored and never shared or used for purposes other than publishing this app.</small></p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-4 control-label">
-                      <label>Login to verify the account and choose the distribution certificate</label>
-                    </div>
-                    <div class="col-sm-8">
-                      <button type="button" class="btn btn-primary login-appStore-button">Log in</button>
-                      <div class="text-danger login-error"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="appStore-logged-in">
-                  <div class="form-group">
-                    <div class="col-sm-4 control-label">
-                      <label>You are logged in as:</label>
-                    </div>
-                    <div class="col-sm-8">
-                      <div class="form-control-static">
-                        <span class="appStore-logged-email">app-developer@fliplet.com</span> - <a href="#" class="log-out-appStore">log out</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="appStore-teams">
-                  <div class="form-group">
-                    <div class="col-sm-4 control-label">
-                      <label>Select a Developer Account Team</label>
-                    </div>
-                    <div class="col-sm-8">
-                       <label for="fl-ent-teams" class="select-proxy-display">
-                          <select class="hidden-select form-control appStore-team" id="fl-store-teams" data-label="select">
-                            <option value="">-- Select a team</option>
-                          </select>
-                          <span class="icon fa fa-chevron-down"></span>
-                          <span class="select-value-proxy">-- Select a team</span>
-                        </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group appStore-more-options">
-                  <div class="col-sm-4 control-label">
-                    <label>Provide us with a distribution certificate choosing from the following options:</label>
                     <p class="help-block label-helper">
-                      <small>For more information on this topic see the <a href="https://fliplet.kayako.com/article/122-how-to-use-apple-distribution-certificates" target="_blank">Support Documents.</a></small>
+                      <small>
+                        The release notes are required to let users know what's new in this version. If it's the first version of your app please highlight this.
+                        <br />
+                        <a href="#" data-template="fl-store-releaseNotes">Use template</a>
+                      </small>
                     </p>
                   </div>
                   <div class="col-sm-8">
-                    <div class="radio radio-icon if-appStore-credential">
-                      <input type="radio" id="fl-store-distribution-1" name="fl-store-distribution" value="previous-file">
-                      <label for="fl-store-distribution-1">
-                        <span class="check"><i class="fa fa-circle"></i></span> Use distribution certificate details from your latest submissions
-                      </label>
-                    </div>
-                    <div class="appStore-previous-file indented-area">
-                      <p class="appStore-certificate-expiring text-warning hidden">Your distribution certificate is about to expire.</p>
-                      <p><span class="appStore-file-name">Certificate Name</span> - <strong>Expires on <span class="appStore-file-expire">October 30th 2018</span></strong><span class="appStore-replace-element hidden"> - <a href="#" class="appStore-replace-cert">Replace certificate</a><span></p>
-                      <div class="text-danger replace-error"></div>
-                    </div>
-                    <div class="appStore-previous-file-success indented-area">
-                      <p class="text-success">Distribution certificate created successfully.</p>
-                      <p><span class="appStore-file-name-success">Certificate Name</span> - <strong>Expires on <span class="appStore-file-expire-success">October 30th 2018</span></strong></p>
-                      <div class="text-danger replace-error"></div>
-                    </div>
-                    <div class="radio radio-icon">
-                      <input type="radio" id="fl-store-distribution-2" name="fl-store-distribution" value="generate-file">
-                      <label for="fl-store-distribution-2">
-                        <span class="check"><i class="fa fa-circle"></i></span> Generate a new distribution certificate
-                      </label>
-                    </div>
-                    <div class="appStore-generate-file indented-area">
-                      <div class="form-group">
-                        <div class="col-sm-12">
-                          <button type="button" class="btn btn-primary appStore-generate-cert disabled">Generate certificate</button>
-                          <div class="text-danger generate-error"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="appStore-generate-file-success indented-area">
-                      <p class="text-success">Distribution certificate created successfully.</p>
-                      <p><span class="appStore-file-name-success">Certificate Name</span> - <strong>Expires on <span class="appStore-file-expire-success">October 30th 2018</span></strong></p>
-                    </div>
-                    <div class="radio radio-icon">
-                      <input type="radio" id="fl-store-distribution-3" name="fl-store-distribution" value="upload-file">
-                      <label for="fl-store-distribution-3">
-                        <span class="check"><i class="fa fa-circle"></i></span> Upload your own distribution certificate (.p12 file)
-                      </label>
-                    </div>
-                    <div class="appStore-upload-file indented-area">
-                      <div class="form-group appStore-upload-certificate disabled">
-                        <div class="col-sm-12">
-                          <label>Upload a .p12 file</label>
-                        </div>
-                        <div class="col-sm-12">
-                          <div class="input-group">
-                            <label class="input-group-btn">
-                              <span class="btn btn-default">Browse&hellip; <input id="fl-store-certificate" class="hidden" type="file" accept="application/keychain_access, application/x-pkcs12"></span>
-                            </label>
-                            <input type="text" class="form-control" id="fl-store-certificate-label" placeholder="Click &ldquo;Browse&rdquo; to select a new file" readonly autocomplete="off">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                    <textarea name="fl-store-releaseNotes" id="fl-store-releaseNotes" class="form-control" rows="8" maxlength="4000" data-error="Please enter your Release Notes" required>[PLEASE REVIEW AND UPDATE OR REMOVE SECTION IN SQUARE BRACKETS. Apple have said they expect detailed release notes and may reject apps without detailed release notes]
 
-                <h3><small>App version and bundle ID</small></h3>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-versionNumber">App version number</label>
-                    <p class="help-block label-helper"><small>This is the version number of your app and will be displayed on the App Store listing.</small></p>
-                  </div>
-                  <div class="col-sm-8">
-                    <input type="text" name="fl-store-versionNumber" class="form-control" id="fl-store-versionNumber" data-error="Please enter an app version number" required/>
+What's new [for new apps and updates]
+
+- [Summarize new features and what users can do with them, e.g. added/updated X so employees can Y. Ensure your features align with Apple’s app store guidelines]
+
+Bug fixes [for updates only]
+
+- [Summarize bug fixes and the problems they solve, e.g. fixed a problem where X prevented users from doing Y. Apple may approve the update if the bugs resolved are significant regardless of their guidelines]
+                    </textarea>
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The recommended format for version number is <code>1.0.0</code>. With a maximum value of <code>99</code> per number.</small></p>
-                  </div>
-                </div>
-                <div class="form-group clearfix">
-                  <div class="col-sm-4 control-label">
-                    <label for="fl-store-bundleId">Bundle ID</label>
-                    <p class="help-block label-helper"><small>This is a unique ID for your app on the App Store. Fliplet auto-generated one for you. The Bundle ID will never be shown to the users.</small></p>
-                  </div>
-                  <div class="col-sm-8 fl-bundleId-holder">
-                    <span class="bundleId-ast-text"></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                  <div class="fl-bundleId-field">
-                    <div class="col-sm-8">
-                      <input type="text" name="fl-store-bundleId" class="form-control" id="fl-store-bundleId" data-error="Please enter the Bundle ID" required/>
-                      <div class="help-block with-errors"></div>
-                      <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organizationName</i>.<i>appName</i></code>.</small></p>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -765,7 +563,7 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="appStoreContactsHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreContacts" aria-expanded="true" aria-controls="appStoreContacts"><strong>4 -</strong> App submission details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreContacts" aria-expanded="true" aria-controls="appStoreContacts"><strong>3 -</strong> App submission details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="appStoreContacts" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreContactsHeading">
               <div class="panel-body">
@@ -775,7 +573,7 @@
                     <label for="fl-store-fname">First Name</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-fname" class="form-control" id="fl-store-fname" data-error="Please enter your first name" required/>
+                    <input type="text" name="fl-store-fname" class="form-control" id="fl-store-fname" data-error="Please enter your first name" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -784,7 +582,7 @@
                     <label for="fl-store-lname">Last Name</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-lname" class="form-control" id="fl-store-lname" data-error="Please enter your last name" required/>
+                    <input type="text" name="fl-store-lname" class="form-control" id="fl-store-lname" data-error="Please enter your last name" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -793,7 +591,7 @@
                     <label for="fl-store-address1">Address line 1</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-address1" class="form-control" id="fl-store-address1" data-error="Please enter your address" required/>
+                    <input type="text" name="fl-store-address1" class="form-control" id="fl-store-address1" data-error="Please enter your address" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -819,7 +617,7 @@
                     <label for="fl-store-postCode">Post Code</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-postCode" class="form-control" id="fl-store-postCode" data-error="Please enter your post code" required/>
+                    <input type="text" name="fl-store-postCode" class="form-control" id="fl-store-postCode" data-error="Please enter your post code" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -988,7 +786,6 @@
                       <option value="Zimbabwe">Zimbabwe</option>
                     </select>
                     <span class="icon fa fa-chevron-down"></span>
-                    <span class="select-value-proxy">-- Select a country</span>
                   </label>
                     <div class="help-block with-errors"></div>
                   </div>
@@ -998,9 +795,9 @@
                     <label for="fl-store-phone">Phone Number</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-phone" class="form-control" id="fl-store-phone" pattern="\+[0-9 ]+" data-error="Please enter a valid phone number" required/>
+                    <input type="text" name="fl-store-phone" class="form-control" id="fl-store-phone" pattern="\+[0-9 ]+" data-error="Please enter a valid phone number" required />
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The phone number needs to include the area code. (Eg.: +44)</small></p>
+                    <p class="help-block"><small>The phone number needs to include the area code. (e.g. +44)</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -1008,7 +805,26 @@
                     <label for="fl-store-email">Email Address</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="email" name="fl-store-email" class="form-control" id="fl-store-email" data-error="Please enter a valid email address" required/>
+                    <input type="email" name="fl-store-email" class="form-control" id="fl-store-email" data-error="Please enter a valid email address" required />
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <h3><small>Release Configuration</small></h3>
+                <p class="help-block">How will the app be submitted to review.</p>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-store-subManual">Manual submission</label>
+                    <p class="help-block label-helper">
+                      <small>With this option, Apple will review and approve your app and you'll need to go into iTunes to manually release the app when you want.</small>
+                    </p>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="checkbox checkbox-icon">
+                      <input type="checkbox" id="fl-store-manualRelease" name="fl-store-manualRelease">
+                      <label for="fl-store-manualRelease" class="bolder">
+                        <span class="check"><i class="fa fa-check"></i></span> Yes, I'll release it myself.
+                      </label>
+                    </div>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -1019,7 +835,7 @@
                     <label for="fl-store-revFirstName">First Name</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-revFirstName" class="form-control" id="fl-store-revFirstName" data-error="Please enter the first name" required/>
+                    <input type="text" name="fl-store-revFirstName" class="form-control" id="fl-store-revFirstName" data-error="Please enter the first name" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -1028,7 +844,7 @@
                     <label for="fl-store-revLastName">Last Name</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-revLastName" class="form-control" id="fl-store-revLastName" data-error="Please enter the last name" required/>
+                    <input type="text" name="fl-store-revLastName" class="form-control" id="fl-store-revLastName" data-error="Please enter the last name" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -1037,7 +853,7 @@
                     <label for="fl-store-revEmail">Email Address</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="email" name="fl-store-revEmail" class="form-control" id="fl-store-revEmail" data-error="Please enter a valid email address" required/>
+                    <input type="email" name="fl-store-revEmail" class="form-control" id="fl-store-revEmail" data-error="Please enter a valid email address" required />
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -1046,8 +862,8 @@
                     <label for="fl-store-revPhone">Phone Number</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-revPhone" class="form-control" id="fl-store-revPhone" pattern="\+[0-9 ]+" data-error="Please enter a valid phone number" required/>
-                    <p class="help-block"><small>The phone number needs to include the area code. (Eg.: +44)</small></p>
+                    <input type="text" name="fl-store-revPhone" class="form-control" id="fl-store-revPhone" pattern="\+[0-9 ]+" data-error="Please enter a valid phone number" required />
+                    <p class="help-block"><small>The phone number needs to include the area code. (e.g. +44)</small></p>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
@@ -1058,7 +874,7 @@
                     <p class="help-block label-helper"><small>Optional</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-revDemoUser" class="form-control" id="fl-store-revDemoUser" />
+                    <input type="text" name="fl-store-revDemoUser" class="form-control" maxlength="100" id="fl-store-revDemoUser" />
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -1067,18 +883,302 @@
                     <p class="help-block label-helper"><small>Optional</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-store-revDemoPass" class="form-control" id="fl-store-revDemoPass" />
+                    <input type="text" data-error="Please enter a password for demo user" name="fl-store-revDemoPass" class="form-control" maxlength="100" id="fl-store-revDemoPass" />
+                    <div class="help-block with-errors"></div>
                   </div>
+                </div>
+                <div class="alert alert-warning">
+                  <strong>Important warning:</strong> If the reviewer notes are incomplete or insufficient, Apple may reject the app which will cause a delay in the app launch. We have automatically loaded a suggested template in the reviewer notes. Please make sure to customize this template, or contact the Customer Success team for help.
                 </div>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-store-revNotes">Notes</label>
-                    <p class="help-block label-helper"><small>Optional</small></p>
+                    <p class="help-block label-helper">
+                      <small>
+                        <a href="#" data-template="fl-store-revNotes">Use template</a>
+                      </small >
+                    </p>
                   </div>
                   <div class="col-sm-8">
-                    <textarea name="fl-store-revNotes" class="form-control" id="fl-store-revNotes" rows="10"></textarea>
+                    <textarea name="fl-store-revNotes" class="form-control" id="fl-store-revNotes" rows="10" maxlength="4000" data-error="Please enter your notes" required>[PLEASE REVIEW AND UPDATE OR REMOVE SECTION IN SQUARE BRACKETS]
+
+Dear Apple
+
+We have reviewed your App Store Review Guidelines and we believe this conforms to your standards because:
+
+the app offers a range of interactive functionality including [summarise key features]
+meets Apple's design standards and works on iPhone & iPad devices
+is being distributed via the app store so members of the public [and our customers] can find and use the app
+[the security system is designed to save customers data and offer a secure way for users to retrieve previously entered data]
+[registration for an account is available via X screen in the app if people would like to gain access]
+When reviewing this app please use the demo account provided. This will skip the email verification process the app uses to verify a user's identity.
+
+If you have any questions please reply and I will be happy to answer any questions.
+
+[Name]
+                    </textarea>
+                    <div class="help-block with-errors"></div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="appStoreAnalyticsHeading">
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreAnalytics" aria-expanded="true" aria-controls="appStoreAnalytics"><strong>4 -</strong> App analytics <small>(Optional)</small><i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+            </div>
+            <div id="appStoreAnalytics" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreAnalyticsHeading">
+              <div class="panel-body">
+                <div>
+                  <h3>Fliplet analytics</h3>
+                  <h4>Status: <span data-fl-analytics-status>Disabled</span></h4>
+                  <p>Fliplet’s analytics records usage data, including the user’s login if the app has a login, and displays the data within Fliplet Studio. <a href="https://help.fliplet.com/fliplets-app-analytics/" target="_blank">Learn more about Fliplet Analytics.</a></p>
+                  <p><small>To enable in Fliplet Studio visit App Settings > Add-ons tab > Fliplet Analytics</small></p>
+                </div>
+
+                <div>
+                  <h3>Firebase analytics</h3>
+                  <h4>Status: <span id="fl-store-firebase-status">Disabled</span></h4>
+                  <p>Google Firebase offers analytics via Google Analytics and other features. <a href="https://help.fliplet.com/google-analytics-via-firebase-update/" target="_blank">Learn more about Firebase.</a></p>
+                  <small>To enable:
+                    <ol>
+                      <li>Login to a Firebase account (any existing Google Account can be used).</li>
+                      <li>Create a new app.</li>
+                      <li>Select Apple.</li>
+                      <li>Download your Firebase plist file.</li>
+                      <li>Upload it by clicking the button below:</li>
+                    </ol>
+                  </small>
+
+                  <div>
+                    <div class="form-group clearfix">
+                      <div class="col-sm-8">
+                        <label class="input-group-btn">
+                          <span class="btn btn-default">Upload Firebase .plist file<input id="fl-store-firebase" name="fl-store-firebase" class="hidden" type="file" accept=".plist" data-error="Please upload a .plist file."></span>
+                        </label>
+                        <div class="help-block with-errors">
+                          <p id="fl-store-firebase-uploaded" class="hidden"><strong>✔ You selected a config file.</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="appStoreTechHeading">
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionAppStore" href="#appStoreTech" aria-expanded="true" aria-controls="appStoreTech"><strong>5 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+            </div>
+            <div id="appStoreTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appStoreTechHeading">
+              <div class="panel-body">
+                <p>We will need some technical information now, such as your developer account login details. Don't worry, these details will be safe with us. We need them in order to publish your app for you.</p>
+                <h3><small>Apple developer account details and distribution certificates</small></h3>
+
+                <div class="appStore-login-details">
+                  <div class="alert alert-info">
+                    <p>If you do not know what the developer account login details are please contact your organization's IT team.</p>
+                  </div>
+                  <div class="alert alert-warning">
+                    <p>If you have ad blockers enabled for your browser, please make sure they are disabled before continuing with login and team selection.</p>
+                  </div>
+                  <div class="form-group clearfix">
+                    <div class="col-sm-4 control-label">
+                      <label for="fl-store-appDevLogin">Apple Developer account login</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="email" class="form-control" id="fl-store-appDevLogin" data-error="Please enter a valid email address" required>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="form-group clearfix">
+                    <div class="col-sm-4 control-label">
+                      <label for="fl-store-appDevPass">Apple Developer account password</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="password" class="form-control" id="fl-store-appDevPass" data-error="Please enter a password">
+                      <div class="help-block with-errors"></div>
+                      <p class="help-block label-helper"><small>This password will be encrypted, safely stored and never shared or used for purposes other than publishing this app.</small></p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                      <label>Login to verify the account and choose the distribution certificate</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <button type="button" class="btn btn-primary login-appStore-button">Log in</button>
+                      <div class="text-danger login-error"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="appStore-login-2fa-devices">
+                  <div class="alert alert-info">
+                    <p>Your Apple ID is protected with two-step verification.</p>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                      <label>Select a trusted number to receive a verification code</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <div class="btn-group-vertical btn-block" id="fl-store-2fa-select"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="appStore-login-2fa-waiting">
+                  <div class="text-center"><i class="fa fa-spinner fa-pulse fa-lg"></i></div>
+                </div>
+                <div class="appStore-login-2fa-code">
+                  <div class="alert alert-info">
+                    <p>Apple has sent a verification code to your device(s) from <span class="region-server-location">one of Fliplet's server locations</span>. Please enter the code to continue.</p>
+                    <p><strong>Note:</strong> If you don't receive the code, please check your Apple account settings.</p>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                      <label>Verify your identity</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="fl-store-2fa-code" data-error="You must enter the verification code to continue" placeholder="Enter the verification code" required>
+                      <p class="help-block appStore-2fa-sms"><strong>Did not get a verification code?</strong> <a href="#">Get a text message with a code</a></p>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                      <button type="button" class="btn btn-primary 2fa-code-store-button">Verify</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="appStore-logged-in">
+                  <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                      <label>You are logged in as:</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <div class="form-control-static">
+                        <span class="appStore-logged-email"></span> - <a href="#" class="log-out-appStore">Change account</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="appStore-teams">
+                  <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                      <label>Select a Developer Account Team</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <a class="btn btn-secondary" id="fl-load-store-teams" href="#">Load teams</a>
+                      <label for="fl-store-teams" class="select-proxy-display">
+                        <select class="hidden-select form-control appStore-team" id="fl-store-teams" data-label="select">
+                          <option value="">-- Select a team</option>
+                        </select>
+                        <span class="icon fa fa-chevron-down"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group appStore-more-options">
+                  <div class="col-sm-4 control-label">
+                    <label>Provide us with a distribution certificate choosing from the following options:</label>
+                    <p class="help-block label-helper">
+                      <small>The certificate file cannot be password protected. For more information on certificates topic see the <a href="https://help.fliplet.com/apple-distribution-certificates/" target="_blank">Support Documents.</a></small>
+                    </p>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="radio radio-icon if-appStore-credential">
+                      <input type="radio" id="fl-store-distribution-1" name="fl-store-distribution" value="previous-file">
+                      <label for="fl-store-distribution-1">
+                        <span class="check"><i class="fa fa-circle"></i></span> Use distribution certificate details from your latest submissions
+                      </label>
+                    </div>
+                    <div class="appStore-previous-file indented-area">
+                      <p class="appStore-certificate-expiring text-warning hidden">Your distribution certificate is about to expire.</p>
+                      <p><span class="appStore-file-name">Certificate Name</span> - <strong>Expires on <span class="appStore-file-expire">October 30th 2018</span></strong><span class="appStore-replace-element hidden"> - <a href="#" class="appStore-replace-cert">Replace certificate</a><span></p>
+                      <div class="text-danger replace-error"></div>
+                    </div>
+                    <div class="appStore-previous-file-success indented-area">
+                      <p class="text-success">Distribution certificate created successfully.</p>
+                      <p><span class="appStore-file-name-success">Certificate Name</span> - <strong>Expires on <span class="appStore-file-expire-success"></span></strong> (Download: <a class="appStore-file-download-cert" href="#" target="_blank">Certificate</a> - <a class="appStore-file-download-key" href="#" target="_blank">Private key</a>)</p>
+                      <p class="text-danger replace-error"></p>
+                    </div>
+                    <div class="radio radio-icon">
+                      <input type="radio" id="fl-store-distribution-2" name="fl-store-distribution" value="generate-file">
+                      <label for="fl-store-distribution-2">
+                        <span class="check"><i class="fa fa-circle"></i></span> Generate a new distribution certificate
+                      </label>
+                    </div>
+                    <div class="appStore-generate-file indented-area">
+                      <p><button type="button" class="btn btn-primary appStore-generate-cert disabled">Generate certificate</button></p>
+                      <p class="text-danger generate-error"></p>
+                    </div>
+                    <div class="appStore-generate-file-success indented-area">
+                      <p class="text-success">Distribution certificate created successfully.</p>
+                      <p><span class="appStore-file-name-success">Certificate Name</span> - <strong>Expires on <span class="appStore-file-expire-success"></span></strong> (Download: <a class="appStore-file-download-cert" href="#" target="_blank">Certificate</a> - <a class="appStore-file-download-key" href="#" target="_blank">Private key</a>)</p>
+                    </div>
+                    <div class="radio radio-icon">
+                      <input type="radio" id="fl-store-distribution-3" name="fl-store-distribution" value="upload-file">
+                      <label for="fl-store-distribution-3">
+                        <span class="check"><i class="fa fa-circle"></i></span> Upload your own distribution certificate (.p12 file)
+                      </label>
+                    </div>
+                    <div class="appStore-upload-file indented-area">
+                      <div class="appStore-upload-certificate disabled">
+                        <p><label>Upload a .p12 file</label></p>
+                        <p>
+                          <div class="input-group">
+                            <label class="input-group-btn">
+                              <span class="btn btn-default">Browse&hellip; <input id="fl-store-certificate" class="hidden" type="file" accept="application/keychain_access, application/x-pkcs12"></span>
+                            </label>
+                            <input type="text" class="form-control" id="fl-store-certificate-label" placeholder="Click &ldquo;Browse&rdquo; to select a new file" readonly>
+                          </div>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <h3><small>App-specific password</small></h3>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-store-versionNumber">App-specific password</label>
+                    <p class="help-block label-helper"><small>This is required to ensure Fliplet is authorized to submit your app to the store.</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" name="fl-store-appPassword" placeholder="xxxx-xxxx-xxxx-xxxx" class="form-control" id="fl-store-appPassword" pattern="([0-9a-z]{4})-([0-9a-z]{4})-([0-9a-z]{4})-([0-9a-z]{4})" data-error="Invalid app-specific password format. Please enter a password in the format xxxx-xxxx-xxxx-xxxx" data-required-error="Please enter an app-specific password" maxlength="19" required/>
+                    <div class="help-block with-errors"></div>
+                    <div class="alert alert-warning">Please note that <strong>you need to generate a unique password for every app</strong>.<br />See <a href="https://support.apple.com/en-gb/HT204397" target="_blank">Apple documentation</a> about how to create an <strong>app-specific password</strong> that Fliplet can use.</small></div>
+                  </div>
+                </div>
+
+                <h3><small>App version and bundle ID</small></h3>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-store-versionNumber">App version number</label>
+                    <p class="help-block label-helper"><small>This is the version number of your app and will be displayed on the App Store listing.</small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" name="fl-store-versionNumber" class="form-control" id="fl-store-versionNumber" pattern="^\d+\.\d+\.\d+$" data-error="Please enter a version number in the required format" data-required-error="Please enter an app version number" data-validation-version-number-type="" data-validation-version-number-type-error="" data-validation-version-number="" data-validation-version-number-error="Please make sure the version number is higher than 1.0.0" maxlength="155" required />
+                    <div class="help-block with-errors"></div>
+                    <p class="help-block"><small>The required format for version number is <code>x.x.x</code>, where <code>x</code> is a number, e.g. <code>1.0.0</code>.</small></p>
+                  </div>
+                </div>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-store-bundleId">Bundle ID</label>
+                    <p class="help-block label-helper"><small>This is a unique ID for your app on the App Store. Fliplet auto-generated one for you. The Bundle ID will never be shown to the users.</small></p>
+                  </div>
+                  <div class="col-sm-8 fl-bundleId-holder">
+                    <span class="bundleId-ast-text" data-toggle="tooltip" data-placement="bottom" title=""></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="fl-bundleId-field">
+                    <div class="col-sm-8">
+                      <input type="text" name="fl-store-bundleId" class="form-control" id="fl-store-bundleId" pattern="^(?=.*[\.])[0-9a-zA-Z.-]{1,}$" data-error="Please make sure the bundle ID contains at least one period (.) and contains only alphanumeric characters (A–Z, a–z, and 0–9), hyphens (-), and periods (.)" data-required-error="Please enter the Bundle ID" maxlength="155" required />
+                      <div class="help-block with-errors"></div>
+                      <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organizationName</i>.<i>appName</i></code>.</small></p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -1090,9 +1190,13 @@
           <p class="text-success save-appStore-progress">Your progress was saved successfully!</p>
         </div>
         <div class="col-xs-5 save-btn-holder col-xs-offset-2 text-right">
+          {{#if appFeatures.appStores.apple.public }}
           <p class="help-block"><small>Submit your information when you are ready!<br>We will take care of the rest.</small></p>
           <button type="submit" class="btn btn-primary fl-green button-appStore-request" data-app-store-build>Request App <i class="fa fa-paper-plane"></i></button>
-          <p class="text-success save-appStore-request">Your request was sent successfully!</p>
+          {{else}}
+          <p class="help-block"><small>Upgrade to an app plan to request your app to be published.</small></p>
+          <button type="submit" class="btn btn-warning button-appStore-request" data-app-store-build>Upgrade to publish</button>
+          {{/if}}
         </div>
       </form>
     </div>
@@ -1101,7 +1205,7 @@
         <!-- App Status Area -->
       </div>
       <p class="text-info">Complete this section to receive an app signed with <a href="https://developer.apple.com/programs/enterprise/" target="_blank">your Apple Developer Enterprise account</a> to distribute in-house apps to your employees.</p>
-      <form data-disable="false" role="form" id="enterpriseConfiguration">
+      <form data-disable="false" role="form" id="enterpriseConfiguration" autocomplete="off">
         <div class="panel-group" id="accordionEnterprise" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default app-details-ent">
             <div class="panel-heading" role="tab" id="enterpriseSettingsHeading">
@@ -1118,6 +1222,7 @@
                   <div class="col-sm-8">
                     <img class="setting-app-icon userUploaded hidden" src="#" />
                     <img class="setting-app-icon default" src="{{ asset 'img/app-icon.png' }}" />
+                    <div class="help-block text-danger image-details-error hidden">File missing, please make sure the file is accessible.</div>
                     <div class="help-block text-danger app-details-error">Upload a 1024 × 1024 pixels image. Click the change button to upload a new app icon.</div>
                     <div class="help-block text-warning app-details-warning">This image is not the recommended size and may result in a low quality image.</div>
                   </div>
@@ -1130,6 +1235,7 @@
                   <div class="col-sm-8">
                     <div class="setting-splash-screen userUploaded hidden" style="background-image: url();"></div>
                     <div class="setting-splash-screen default" data-enterprise-default-splash-url="{{ asset 'img/splash-screen.png' }}" style="background-image: url({{ asset 'img/splash-screen.png' }});"></div>
+                    <div class="help-block text-danger splash-details-error hidden">File missing, please make sure the file is accessible.</div>
                     <div class="help-block text-danger app-details-error">Click the change button to upload a splash screen</div>
                     <div class="help-block text-warning app-details-warning">This image is not the recommended size and may result in a low quality image.</div>
                   </div>
@@ -1143,23 +1249,68 @@
             </div>
             <div id="enterpriseGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseGeneralHeading">
               <div class="panel-body">
-                <div class="form-group clearfix">
+                <div class="form-group clearfix centered-vertically">
                   <div class="col-sm-4 control-label">
                     <label for="fl-ent-iconName">App icon name</label>
-                    <p class="help-block label-helper"><small>The name below the icon on the home screen.</small></p>
+                    <p class="help-block label-helper"><small>The name below the icon on the home screen. Note that the app icon name will only display a maximum of 13 characters</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-ent-iconName" class="form-control" id="fl-ent-iconName" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <input type="text" name="fl-ent-iconName" class="form-control" id="fl-ent-iconName" maxlength="30" data-error="Please enter an app icon name" required />
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
+                    <p class="help-block"><small>App names are limited to 30 characters.</small></p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="enterpriseAnalyticsHeading">
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseAnalytics" aria-expanded="true" aria-controls="enterpriseAnalytics"><strong>3 -</strong> App analytics <small>(Optional)</small><i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+            </div>
+            <div id="enterpriseAnalytics" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseAnalyticsHeading">
+              <div class="panel-body">
+                <div>
+                  <h3>Fliplet analytics</h3>
+                  <h4>Status: <span data-fl-analytics-status>Disabled</span></h4>
+                  <p>Fliplet’s analytics records usage data, including the user’s login if the app has a login, and displays the data within Fliplet Studio. <a href="https://help.fliplet.com/article/225" target="_blank">Learn more about Fliplet Analytics.</a></p>
+                  <p><small>To enable in Fliplet Studio visit App Settings > Add-ons tab > Fliplet Analytics</small></p>
+                </div>
+
+                <div>
+                  <h3>Firebase analytics</h3>
+                  <h4>Status: <span id="fl-ent-firebase-status">Disabled</span></h4>
+                  <p>Google Firebase offers analytics via Google Analytics and other features. <a href="https://help.fliplet.com/article/217" target="_blank">Learn more about Firebase.</a></p>
+                  <small>To enable:
+                    <ol>
+                      <li>Login to a Firebase account (any existing Google Account can be used).</li>
+                      <li>Create a new app.</li>
+                      <li>Select Apple.</li>
+                      <li>Download your Firebase plist file.</li>
+                      <li>Upload it by clicking the button below:</li>
+                    </ol>
+                  </small>
+
+                  <div>
+                    <div class="form-group clearfix">
+                      <div class="col-sm-8">
+                        <label class="input-group-btn">
+                          <span class="btn btn-default">Upload Firebase .plist file<input id="fl-ent-firebase" name="fl-ent-firebase" class="hidden" type="file" accept=".plist" data-error="Please upload a .plist file."></span>
+                        </label>
+                        <div class="help-block with-errors">
+                          <p id="fl-ent-firebase-uploaded" class="hidden"><strong>✔ You selected a config file.</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="enterpriseTechHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseTech" aria-expanded="true" aria-controls="enterpriseTech"><strong>3 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionEnterprise" href="#enterpriseTech" aria-expanded="true" aria-controls="enterpriseTech"><strong>4 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="enterpriseTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="enterpriseTechHeading">
               <div class="panel-body">
@@ -1170,14 +1321,14 @@
                     <p>If you don't know what the developer account login details are please contact your organization's IT team.</p>
                   </div>
                   <div class="alert alert-warning">
-                    <p><strong>Note</strong> Two-Factor Authentication is not currently supported.</p>
+                    <p>If you have ad blockers enabled for your browser, please make sure they are disabled before continuing with login and team selection.</p>
                   </div>
                   <div class="form-group clearfix">
                     <div class="col-sm-4 control-label">
                       <label for="fl-ent-appDevLogin">Apple Developer account login</label>
                     </div>
                     <div class="col-sm-8">
-                      <input type="email" class="form-control" id="fl-ent-appDevLogin" data-error="Please enter a valid email address" required/>
+                      <input type="email" class="form-control" id="fl-ent-appDevLogin" data-error="Please enter a valid email address" required />
                       <div class="help-block with-errors"></div>
                     </div>
                   </div>
@@ -1186,7 +1337,7 @@
                       <label for="fl-ent-appDevPass">Apple Developer account password</label>
                     </div>
                     <div class="col-sm-8">
-                      <input type="password" class="form-control" id="fl-ent-appDevPass" data-error="Please enter a password" required/>
+                      <input type="password" class="form-control" id="fl-ent-appDevPass" data-error="Please enter a password" required />
                       <div class="help-block with-errors"></div>
                       <p class="help-block label-helper"><small>This password will be encrypted, safely stored and never shared or used for purposes other than publishing this app.</small></p>
                     </div>
@@ -1202,9 +1353,46 @@
                     </div>
                   </div>
                 </div>
+                <div class="enterprise-login-2fa-devices">
+                  <div class="alert alert-info">
+                    <p>Your Apple ID is protected with two-step verification.</p>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                      <label>Select a trusted number to receive a verification code</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <div class="btn-group-vertical btn-block" id="fl-ent-2fa-select"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="enterprise-login-2fa-waiting">
+                  <div class="text-center"><i class="fa fa-spinner fa-pulse fa-lg"></i></div>
+                </div>
+                <div class="enterprise-login-2fa-code">
+                  <div class="alert alert-info">
+                    <p>Apple has sent a verification code to your device(s) from <span class="region-server-location">one of Fliplet's server locations</span>. Please enter the code to continue.</p>
+                    <p><strong>Note:</strong> If you don't receive the code, please check your Apple account settings.</p>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                      <label>Verify your identity</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="fl-ent-2fa-code" data-error="You must enter the verification code to continue" placeholder="Enter the verification code" required>
+                      <p class="help-block enterprise-2fa-sms"><strong>Did not get a verification code?</strong> <a href="#">Get a text message with a code</a></p>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                      <button type="button" class="btn btn-primary 2fa-code-ent-button">Verify</button>
+                    </div>
+                  </div>
+                </div>
                 <div class="enterprise-manual-details">
                   <div class="alert alert-info">
-                        <p>Warning! This area should only be used if you have technical technical knowledge on enterprise app submissions, p12 files and mobile provisioning files.</p>
+                        <p>Warning! This area should only be used if you have technical knowledge on enterprise app submissions, p12 files and mobile provisioning files.</p>
                   </div>
                   <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-4">
@@ -1241,7 +1429,7 @@
                         <label class="input-group-btn">
                           <span class="btn btn-default">Browse&hellip; <input id="fl-ent-certificate-manual-details" name="fl-ent-certificate-manual-details" class="hidden" type="file" accept="application/keychain_access, application/x-pkcs12" data-error="Please upload a .p12 file."></span>
                         </label>
-                        <input type="text" class="form-control" id="fl-ent-certificate-manual-details-label" placeholder="Click &ldquo;Browse&rdquo; to select a new file" readonly autocomplete="off">
+                        <input type="text" class="form-control" id="fl-ent-certificate-manual-details-label" placeholder="Click &ldquo;Browse&rdquo; to select a new file" readonly>
                       </div>
                       <div class="help-block with-errors"></div>
                     </div>
@@ -1258,7 +1446,7 @@
                         <label class="input-group-btn">
                           <span class="btn btn-default">Browse&hellip; <input id="fl-ent-mobileprovision-manual-details" name="fl-ent-mobileprovision-manual-details" class="hidden" type="file" accept="application/x-apple-aspen-mobileprovision" data-error="Please upload a .mobileprovision file."></span>
                         </label>
-                        <input type="text" class="form-control" id="fl-ent-mobileprovision-manual-details-label" placeholder="Click &ldquo;Browse&rdquo; to select a new file" readonly autocomplete="off">
+                        <input type="text" class="form-control" id="fl-ent-mobileprovision-manual-details-label" placeholder="Click &ldquo;Browse&rdquo; to select a new file" readonly>
                       </div>
                       <div class="help-block with-errors"></div>
                     </div>
@@ -1271,7 +1459,7 @@
                     </div>
                     <div class="col-sm-8">
                       <div class="form-control-static">
-                        <span class="enterprise-logged-email">app-developer@fliplet.com</span> - <a href="#" class="log-out-enterprise">log out</a>
+                        <span class="enterprise-logged-email"></span> - <a href="#" class="log-out-enterprise">Change account</a>
                       </div>
                     </div>
                   </div>
@@ -1282,13 +1470,13 @@
                       <label>Select a Developer Account Team</label>
                     </div>
                     <div class="col-sm-8">
-                       <label for="fl-ent-teams" class="select-proxy-display">
-                          <select class="hidden-select form-control enterprise-team" id="fl-ent-teams" data-label="select">
-                            <option value="">-- Select a team</option>
-                          </select>
-                          <span class="icon fa fa-chevron-down"></span>
-                          <span class="select-value-proxy">-- Select a team</span>
-                        </label>
+                      <a class="btn btn-secondary" id="fl-load-ent-teams" href="#">Load teams</a>
+                      <label for="fl-ent-teams" class="select-proxy-display">
+                        <select class="hidden-select form-control enterprise-team" id="fl-ent-teams" data-label="select">
+                          <option value="">-- Select a team</option>
+                        </select>
+                        <span class="icon fa fa-chevron-down"></span>
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -1296,10 +1484,11 @@
                   <div class="col-sm-4 control-label">
                     <label>Provide us with a distribution certificate choosing from the following options:</label>
                     <p class="help-block label-helper">
-                      <small>For more information on this topic see the <a href="https://fliplet.kayako.com/article/122-how-to-use-apple-distribution-certificates" target="_blank">Support Documents.</a></small>
+                      <small>For more information on this topic see the <a href="https://help.fliplet.com/article/122-how-to-use-apple-distribution-certificates" target="_blank">Support Documents.</a></small>
                     </p>
                   </div>
                   <div class="col-sm-8">
+                    <div class="alert alert-warning">Certificates generated for iOS last up to <u>12 months</u> and <strong>must be regenerated before they expire</strong>.</div>
                     <div class="radio radio-icon if-enterprise-credential">
                       <input type="radio" id="fl-ent-distribution-2" name="fl-ent-distribution" value="previous-file">
                       <label for="fl-ent-distribution-2">
@@ -1315,7 +1504,7 @@
                     </div>
                     <div class="enterprise-previous-file-success indented-area">
                       <p class="text-success">Distribution certificate created successfully.</p>
-                      <p><span class="enterprise-file-name-success">Certificate Name</span> - <strong>Expires on <span class="enterprise-file-expire-success">October 30th 2018</span></strong></p>
+                      <p><span class="enterprise-file-name-success">Certificate Name</span> - <strong>Expires on <span class="enterprise-file-expire-success"></span></strong> (Download: <a class="enterprise-file-download-cert" href="#" target="_blank">Certificate</a> - <a class="enterprise-file-download-key" href="#" target="_blank">Private key</a>)</p>
                     </div>
                     <div class="radio radio-icon">
                       <input type="radio" id="fl-ent-distribution-1" name="fl-ent-distribution" value="generate-file">
@@ -1324,16 +1513,12 @@
                       </label>
                     </div>
                     <div class="enterprise-generate-file indented-area">
-                      <div class="form-group">
-                        <div class="col-sm-12">
-                          <button type="button" class="btn btn-primary enterprise-generate-cert disabled">Generate certificate</button>
-                          <div class="text-danger generate-error"></div>
-                        </div>
-                      </div>
+                      <p><button type="button" class="btn btn-primary enterprise-generate-cert disabled">Generate certificate</button></p>
+                      <p class="text-danger generate-error"></p>
                     </div>
                     <div class="enterprise-generate-file-success indented-area">
                       <p class="text-success">Distribution certificate created successfully.</p>
-                      <p><span class="enterprise-file-name-success">Certificate Name</span> - <strong>Expires on <span class="enterprise-file-expire-success">October 30th 2018</span></strong></p>
+                      <p><span class="enterprise-file-name-success">Certificate Name</span> - <strong>Expires on <span class="enterprise-file-expire-success"></span></strong> (Download: <a class="enterprise-file-download-cert" href="#" target="_blank">Certificate</a> - <a class="enterprise-file-download-key" href="#" target="_blank">Private key</a>)</p>
                     </div>
                     <div class="radio radio-icon">
                       <input type="radio" id="fl-ent-distribution-3" name="fl-ent-distribution" value="upload-file">
@@ -1342,19 +1527,19 @@
                       </label>
                     </div>
                     <div class="enterprise-upload-file indented-area">
-                      <div class="form-group enterprise-upload-certificate disabled">
-                        <div class="col-sm-12">
+                      <div class="enterprise-upload-certificate disabled">
+                        <p>
                           <label>Upload a .p12 file</label>
-                        </div>
-                        <div class="col-sm-12">
+                        </p>
+                        <p>
                           <div class="input-group">
                             <label class="input-group-btn">
                               <span class="btn btn-default">Browse&hellip; <input id="fl-ent-certificate" class="hidden" type="file" accept="application/keychain_access, application/x-pkcs12"></span>
                             </label>
-                            <input type="text" class="form-control" id="fl-ent-certificate-label" placeholder="Click &ldquo;Browse&rdquo; to select a new file" readonly autocomplete="off">
+                            <input type="text" class="form-control" id="fl-ent-certificate-label" placeholder="Click &ldquo;Browse&rdquo; to select a new file" readonly>
                           </div>
                         </div>
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1366,9 +1551,9 @@
                     <p class="help-block label-helper"><small>This is the version number of your app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-ent-versionNumber" class="form-control" id="fl-ent-versionNumber" data-error="Please enter an app version number" required/>
+                    <input type="text" name="fl-ent-versionNumber" class="form-control" id="fl-ent-versionNumber" pattern="^\d+\.\d+\.\d+$" data-error="Please enter a version number in the required format" data-required-error="Please enter an app version number" data-validation-version-number-type="" data-validation-version-number-type-error="" data-validation-version-number="" data-validation-version-number-error="Please make sure the version number is higher than 1.0.0" maxlength="155" required />
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The recommended format for version number is <code>1.0.0</code>. With a maximum value of <code>99</code> per number.</small></p>
+                    <p class="help-block"><small>The required format for version number is <code>x.x.x</code>, where <code>x</code> is a number, e.g. <code>1.0.0</code>.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -1377,20 +1562,22 @@
                     <p class="help-block label-helper"><small>This is a unique ID for your app on the App Store. Fliplet auto-generated one for you.</small></p>
                   </div>
                   <div class="col-sm-8 fl-bundleId-holder">
-                    <span class="bundleId-ent-text"></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
+                    <span class="bundleId-ent-text" data-toggle="tooltip" data-placement="bottom" title=""></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
                     <div class="help-block with-errors"></div>
                   </div>
                   <div class="fl-bundleId-field">
                     <div class="col-sm-8">
-                      <input type="text" name="fl-ent-bundleId" class="form-control" id="fl-ent-bundleId" data-error="Please enter your Bundle ID" required/>
+                      <input type="text" name="fl-ent-bundleId" class="form-control" id="fl-ent-bundleId" pattern="^(?=.*[\.])[0-9a-zA-Z.-]{1,}$" data-error="Please make sure the bundle ID contains at least one period (.) and contains only alphanumeric characters (A–Z, a–z, and 0–9), hyphens (-), and periods (.)" data-required-error="Please enter the Bundle ID" maxlength="155" required />
                       <div class="help-block with-errors"></div>
                       <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organizationName</i>.<i>appName</i></code>.</small></p>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
+
         </div>
         <hr>
         <div class="col-xs-5 save-btn-holder">
@@ -1399,9 +1586,13 @@
           <p class="text-success save-enterprise-progress">Your progress was saved successfully!</p>
         </div>
         <div class="col-xs-5 save-btn-holder col-xs-offset-2 text-right">
+          {{#if appFeatures.appStores.apple.private }}
           <p class="help-block"><small>Submit your information when you are ready!<br>We will take care of the rest.</small></p>
           <button type="submit" class="btn btn-primary fl-green button-enterprise-request" data-enterprise-build>Request App <i class="fa fa-paper-plane"></i></button>
-          <p class="text-success save-enterprise-request">Your request was sent successfully!</p>
+          {{else}}
+          <p class="help-block"><small>Upgrade to an app plan to request your app to be published.</small></p>
+          <button type="submit" class="btn btn-warning button-appStore-request" data-app-store-build>Upgrade to publish</button>
+          {{/if}}
         </div>
       </form>
     </div>
@@ -1412,7 +1603,7 @@
       <p class="text-info">Unsigned apps will need to be signed before they can be distributed. If you would like Fliplet to sign the app for you, please request an app via the "App Store" or "Enterprise" tabs above. If you request an unsigned app file, you will need a Mac
         or software that can resign this app for you. For more information about signing apps, please see <a href="https://developer.apple.com/library/content/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW7"
           target="_blank">this Apple Developer article</a>.</p>
-      <form data-disable="false" role="form" id="unsignedConfiguration">
+      <form data-disable="false" role="form" id="unsignedConfiguration" autocomplete="off">
         <div class="panel-group" id="accordionUnsigned" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default app-details-uns">
             <div class="panel-heading" role="tab" id="unsignedSettingsHeading">
@@ -1429,6 +1620,7 @@
                   <div class="col-sm-8">
                     <img class="setting-app-icon userUploaded hidden" src="#" />
                     <img class="setting-app-icon default" src="{{ asset 'img/app-icon.png' }}" />
+                    <div class="help-block text-danger image-details-error hidden">File missing, please make sure the file is accessible.</div>
                     <div class="help-block text-danger app-details-error">Upload a 1024 × 1024 pixels image. Click the change button to upload a new app icon.</div>
                     <div class="help-block text-warning app-details-warning">This image is not the recommended size and may result in a low quality image.</div>
                   </div>
@@ -1441,6 +1633,7 @@
                   <div class="col-sm-8">
                     <div class="setting-splash-screen userUploaded hidden" style="background-image: url();"></div>
                     <div class="setting-splash-screen default" data-unsigned-default-splash-url="{{ asset 'img/splash-screen.png' }}" style="background-image: url({{ asset 'img/splash-screen.png' }});"></div>
+                    <div class="help-block text-danger splash-details-error hidden">File missing, please make sure the file is accessible.</div>
                     <div class="help-block text-danger app-details-error">Click the change button to upload a splash screen</div>
                     <div class="help-block text-warning app-details-warning">This image is not the recommended size and may result in a low quality image.</div>
                   </div>
@@ -1454,23 +1647,68 @@
             </div>
             <div id="unsignedGeneral" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedGeneralHeading">
               <div class="panel-body">
-                <div class="form-group clearfix">
+                <div class="form-group clearfix centered-vertically">
                   <div class="col-sm-4 control-label">
                     <label for="fl-uns-iconName">App icon name</label>
-                    <p class="help-block label-helper"><small>The name below the icon on the home screen.</small></p>
+                    <p class="help-block label-helper"><small>The name below the icon on the home screen. Note that the app icon name will only display a maximum of 13 characters</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-uns-iconName" class="form-control" id="fl-uns-iconName" maxlength="13" data-error="Please enter an app icon name" required/>
+                    <input pattern="^(?!\s*$).+" type="text" name="fl-uns-iconName" class="form-control" id="fl-uns-iconName" maxlength="30" data-error="Please enter an app icon name" required />
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The length of your app icon name is limited to 13 characters</small></p>
+                    <p class="help-block"><small>App names are limited to 30 characters.</small></p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="unsignedAnalyticsHeading">
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedAnalytics" aria-expanded="true" aria-controls="unsignedAnalytics"><strong>3 -</strong> App analytics <small>(Optional)</small><i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+            </div>
+            <div id="unsignedAnalytics" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedAnalyticsHeading">
+              <div class="panel-body">
+                <div>
+                  <h3>Fliplet analytics</h3>
+                  <h4>Status: <span data-fl-analytics-status>Disabled</span></h4>
+                  <p>Fliplet’s analytics records usage data, including the user’s login if the app has a login, and displays the data within Fliplet Studio. <a href="https://help.fliplet.com/article/225" target="_blank">Learn more about Fliplet Analytics.</a></p>
+                  <p><small>To enable in Fliplet Studio visit App Settings > Add-ons tab > Fliplet Analytics</small></p>
+                </div>
+
+                <div>
+                  <h3>Firebase analytics</h3>
+                  <h4>Status: <span id="fl-uns-firebase-status">Disabled</span></h4>
+                  <p>Google Firebase offers analytics via Google Analytics and other features. <a href="https://help.fliplet.com/article/217" target="_blank">Learn more about Firebase.</a></p>
+                  <small>To enable:
+                    <ol>
+                      <li>Login to a Firebase account (any existing Google Account can be used).</li>
+                      <li>Create a new app.</li>
+                      <li>Select Apple.</li>
+                      <li>Download your Firebase plist file.</li>
+                      <li>Upload it by clicking the button below:</li>
+                    </ol>
+                  </small>
+
+                  <div>
+                    <div class="form-group clearfix">
+                      <div class="col-sm-8">
+                        <label class="input-group-btn">
+                          <span class="btn btn-default">Upload Firebase .plist file<input id="fl-uns-firebase" name="fl-uns-firebase" class="hidden" type="file" accept=".plist" data-error="Please upload a .plist file."></span>
+                        </label>
+                        <div class="help-block with-errors">
+                          <p id="fl-uns-firebase-uploaded" class="hidden"><strong>✔ You selected a config file.</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="unsignedTechHeading">
-              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedTech" aria-expanded="true" aria-controls="unsignedTech"><strong>3 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
+              <h4 class="panel-title collapsed" role="button" data-toggle="collapse" data-parent="#accordionUnsigned" href="#unsignedTech" aria-expanded="true" aria-controls="unsignedTech"><strong>4 -</strong> App technical details <small>(Required)</small> <i class="fa fa-angle-down" aria-hidden="true"></i></h4>
             </div>
             <div id="unsignedTech" class="panel-collapse collapse" role="tabpanel" aria-labelledby="unsignedTechHeading">
               <div class="panel-body">
@@ -1481,9 +1719,9 @@
                     <p class="help-block label-helper"><small>This is the version number of your app.</small></p>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" name="fl-uns-versionNumber" class="form-control" id="fl-uns-versionNumber" data-error="Please enter an app version number" required/>
+                    <input type="text" name="fl-uns-versionNumber" class="form-control" id="fl-uns-versionNumber" pattern="^\d+\.\d+\.\d+$" data-error="Please enter a version number in the required format" data-required-error="Please enter an app version number" data-validation-version-number-type="" data-validation-version-number-type-error="" data-validation-version-number="" data-validation-version-number-error="Please make sure the version number is higher than 1.0.0" maxlength="155" required />
                     <div class="help-block with-errors"></div>
-                    <p class="help-block"><small>The recommended format for version number is <code>1.0.0</code>. With a maximum value of <code>99</code> per number.</small></p>
+                    <p class="help-block"><small>The required format for version number is <code>x.x.x</code>, where <code>x</code> is a number, e.g. <code>1.0.0</code>.</small></p>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -1492,20 +1730,22 @@
                     <p class="help-block label-helper"><small>This is a unique ID for your app on the App Store. Fliplet auto-generated one for you.</small></p>
                   </div>
                   <div class="col-sm-8 fl-bundleId-holder">
-                    <span class="bundleId-uns-text"></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
+                    <span class="bundleId-uns-text" data-toggle="tooltip" data-placement="bottom" title=""></span> <span class="btn btn-sm btn-default" change-bundleid>Change</span>
                     <div class="help-block with-errors"></div>
                   </div>
                   <div class="fl-bundleId-field">
                     <div class="col-sm-8">
-                      <input type="text" name="fl-uns-bundleId" class="form-control" id="fl-uns-bundleId" data-error="Please enter your Bundle ID" required/>
+                      <input type="text" name="fl-uns-bundleId" class="form-control" id="fl-uns-bundleId" pattern="^(?=.*[\.])[0-9a-zA-Z.-]{1,}$" data-error="Please make sure the bundle ID contains at least one period (.) and contains only alphanumeric characters (A–Z, a–z, and 0–9), hyphens (-), and periods (.)" data-required-error="Please enter the Bundle ID" maxlength="155" required />
                       <div class="help-block with-errors"></div>
                       <p class="help-block"><small>This value needs to be unique and the structure must be <code>com.<i>organizationName</i>.<i>appName</i></code>.</small></p>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
+
         </div>
         <hr>
         <div class="col-xs-5 save-btn-holder">
@@ -1514,14 +1754,18 @@
           <p class="text-success save-unsigned-progress">Your progress was saved successfully!</p>
         </div>
         <div class="col-xs-5 save-btn-holder col-xs-offset-2 text-right">
+          {{#if organizationIsPaying }}
           <p class="help-block"><small>Submit your information when you are ready!<br>We will take care of the rest.</small></p>
           <button type="submit" class="btn btn-primary fl-green button-unsigned-request" data-unsigned-build>Request App <i class="fa fa-paper-plane"></i></button>
-          <p class="text-success save-unsigned-request">Your request was sent successfully!</p>
+          {{else}}
+          <p class="help-block"><small>Upgrade to an app plan to request your app to be published.</small></p>
+          <button type="submit" class="btn btn-warning button-appStore-request" data-app-store-build>Upgrade to publish</button>
+          {{/if}}
         </div>
       </form>
     </div>
     <div role="tabpanel" class="tab-pane fl-sb-push" id="push-tab">
-      <form data-disable="false" role="form" id="pushConfiguration">
+      <form data-disable="false" role="form" id="pushConfiguration" autocomplete="off">
         <p class="text-info">You need to publish your app for these push notifications settings to be applied to your app.</p>
         <div class="panel-group" id="accordionPush" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default">
@@ -1533,19 +1777,26 @@
                 <p>Push notifications can be set up at a later stage if you don't want to configure it now. It's the only section on this screen that you can edit after submission.</p>
                 <p>For instructions on how to get the information you need to configure this section, see these help articles:</p>
                 <ul>
-                  <li><a href="https://help.fliplet.com/article/23-setting-up-push-notifications-for-ios" target="_blank">How to set-up push notifications for iOS</a></li>
+                  <li><a href="https://help.fliplet.com/push-notifications/#1" target="_blank">How to set-up push notifications for iOS</a></li>
                 </ul>
-                <p>For push notification best practices, you might also want to check out our blog post <a href="https://fliplet.com/blog/start-using-push-notifications-the-right-way/" target="_blank">everything you need to know about push notifications and how to use them well</a>.</p>
-                <p><strong>Push Notifications will only work for your latest app request.</strong></p>
+                <p><strong>Push Notifications will only work after you have published an update to your app.</strong></p>
                 <div class="form-group clearfix">
                   <div class="col-sm-4 control-label">
                     <label for="fl-push-authKey">Authentication Key</label>
                     <p class="help-block label-helper"><small>Authentication Key can be created <a target="_blank" href="https://developer.apple.com/account/ios/certificate/key">here</a></small></p>
                   </div>
                   <div class="col-sm-8">
-                    <textarea name="fl-push-authKey" class="form-control" id="fl-push-authKey" rows="6">-----BEGIN PRIVATE KEY-----
+                    <textarea
+                      name="fl-push-authKey"
+                      class="form-control"
+                      id="fl-push-authKey"
+                      rows="6"
+                      data-validation-authentication-key=""
+                      data-validation-authentication-key-error=""
+                      placeholder="-----BEGIN PRIVATE KEY-----
 ...
------END PRIVATE KEY-----</textarea>
+-----END PRIVATE KEY-----"></textarea>
+                    <div class="help-block with-errors"></div>
                   </div>
                 </div>
                 <div class="form-group clearfix">
@@ -1557,13 +1808,23 @@
                     <input type="text" name="fl-push-keyId" class="form-control" id="fl-push-keyId" />
                   </div>
                 </div>
+                <div class="form-group clearfix">
+                  <div class="col-sm-4 control-label">
+                    <label for="fl-push-projectId">Use this to test your credentials are set up correctly</label>
+                    <p class="help-block label-helper"><small>Ensure you are logged in to your Developer account to test configuration. Login <a href="#" onclick="goToTechDetails()">here</a></small></p>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="button" id="fl-push-testConfigButton" class="btn btn-primary" value="Test" />
+                    <p id="fl-push-testResultMessage"></p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <hr>
         <div class="col-xs-6 save-btn-holder">
-          <p class="help-block"><small>After saving, send notifications from the "Send push notifications" tab on the left.</small></p>
+          <p class="help-block"><small>After saving, send notifications from the "Send notifications" button on the Publish screen.</small></p>
           <div class="btn btn-primary" data-push-save>Save <i class="fa fa-cloud-upload"></i></div>
           <p class="text-success save-push-progress">Your data saved successfully!</p>
         </div>
@@ -1611,8 +1872,13 @@
             <div class="app-build-progress-holder"><i class="fa fa-check-circle"></i> Completed</div>
             \{{#if fileUrl}}
             <div class="download-build"><a href="\{{fileUrl}}"><i class="fa fa-download"></i> Download file</a></div>\{{/if}}
+            \{{#if isAdmin}}
             \{{#if debugFileUrl}}
-            <div class="download-build"><a href="\{{debugFileUrl}}"><i class="fa fa-download"></i> Download debug app</a></div>\{{/if}}
+            <div class="download-build"><span class="label label-default">Admin</span> <a href="\{{debugFileUrl}}"><i class="fa fa-download"></i> Download debug app</a> <a href="https://support.apple.com/en-us/HT204460"><i class="fa fa-fw fa-question-circle-o"></i></a></div>
+            \{{else}}
+              <div class="download-build"><span class="label label-default">Admin</span> Debug app not available</div>
+            \{{/if}}
+            \{{/if}}
           </td>
           <td class="app-build-details">
             \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-flag-checkered"></i> Finished on:</span> \{{updatedAt}}</span>\{{/if}}
@@ -1621,15 +1887,20 @@
           \{{/if}}
           \{{#if ready-for-testing}}
           <td class="app-build-progress info">
-            <div class="app-build-progress-holder"><i class="fa fa-bell"></i> Ready for testing</div>
+            <div class="app-build-progress-holder"><i class="fa fa-bell"></i> \{{testingStatus}}</div>
             \{{#if fileUrl}}
             <div class="download-build"><a href="\{{fileUrl}}"><i class="fa fa-download"></i> Download file</a></div>\{{/if}}
+            \{{#if isAdmin}}
             \{{#if debugFileUrl}}
-            <div class="download-build"><a href="\{{debugFileUrl}}"><i class="fa fa-download"></i> Download debug app</a></div>\{{/if}}
+            <div class="download-build"><span class="label label-default">Admin</span> <a href="\{{debugFileUrl}}"><i class="fa fa-download"></i> Download debug app</a> <a href="https://support.apple.com/en-us/HT204460"><i class="fa fa-fw fa-question-circle-o"></i></a></div>
+            \{{else}}
+            <div class="download-build"><span class="label label-default">Admin</span> Debug app not available</div>
+            \{{/if}}
+            \{{/if}}
           </td>
           <td class="app-build-details">
             \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-clock-o"></i> Ready on:</span> \{{updatedAt}}</span>\{{/if}}
-            <div class="app-build-name">App ready for testing</div>
+            <div class="app-build-name">\{{testingMessage}}</div>
           </td>
           \{{/if}}
           \{{#if tested}}
@@ -1644,13 +1915,26 @@
           \{{#if failed}}
           <td class="app-build-progress danger">
             <div class="app-build-progress-holder"><i class="fa fa-exclamation-circle"></i> Failed</div>
-            <div class="retry-build"><a href="#" data-retry-id="\{{id}}"><i class="fa fa-repeat"></i> Try again</a></div>
           </td>
           <td class="app-build-details">
             \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-flag-checkered"></i> Finished on:</span> \{{updatedAt}}</span>\{{/if}}
-            <div class="app-build-name">There was an error building your app</div>
+            \{{#if message}}
+              <div class="app-build-name">\{{{message}}}</div>
+            \{{else}}
+              <div class="app-build-name">There was an error building your app</div>
+            \{{/if}}
           </td>
-          \{{/if}} \{{#if cancelled}}
+          \{{/if}}
+          \{{#if gracefullyFailed }}
+          <td class="app-build-progress success">
+            <div class="app-build-progress-holder"><i class="fa fa-check-circle"></i> Completed</div>
+          </td>
+          <td class="app-build-details">
+            \{{#if updatedAt}}<span><span class="icon"><i class="fa fa-flag-checkered"></i> Finished on:</span> \{{updatedAt}}</span>\{{/if}}
+            <div class="app-build-name">\{{{message}}}</div>
+          </td>
+          \{{/if}}
+          \{{#if cancelled}}
           <td class="app-build-progress warning">
             <div class="app-build-progress-holder"><i class="fa fa-ban"></i> Canceled</div>
           </td>
@@ -1660,7 +1944,7 @@
           </td>
           \{{/if}}
           <td class="app-build-download">
-            <div><i class="fa fa-cog"></i> build #\{{id}}</div>
+            <div><i class="fa fa-cog"></i> build #\{{id}}<br><code>\{{versionNumber}}</code></div>
           </td>
         </tr>
         \{{/each}}
