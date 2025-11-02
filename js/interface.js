@@ -1950,7 +1950,7 @@ function isValidVersion(version) {
 
 function validateScreenshots() {
   var imageErrors = [];
-  var supportedFormats = Fliplet.Utils.uniqBy(Fliplet.Utils.concat.apply(null, Fliplet.Utils.map(screenshotRequirements, 'sizes')),
+  var supportedFormats = Fliplet.Utils.uniqBy([].concat.apply([], Fliplet.Utils.map(screenshotRequirements, 'sizes')),
     function(req) {
       return req[0] + ' x ' + req[1];
     });
