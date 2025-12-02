@@ -2783,6 +2783,38 @@ function removeAuthTokenFromFileUrl(url) {
   return url;
 }
 
+async function isBundleIdUnique(configuration, tab) {
+  var bundleIdValue = ($(`[name="fl-${configuration}-bundleId"]`).val() || '').trim();
+
+  try {
+    var response = await createBundleId(bundleIdValue);
+
+    if (response && typeof response.resultCount === 'number' && response.resultCount > 0) {
+      var $input = $(`#fl-${configuration}-bundleId`);
+      var $group = $input.closest('.form-group');
+      var $block = $group.find('.help-block.with-errors');
+
+      $block.html('<ul class="list-unstyled"><li>Bundle ID already exists. Please choose a unique Bundle ID.</li></ul>');
+      $group.addClass('has-error has-danger');
+      $(`.fl-sb-${tab} .fl-bundleId-holder`).addClass('hidden');
+      $(`.fl-sb-${tab} .fl-bundleId-field`).addClass('show');
+      setTimeout(checkGroupErrors, 0);
+
+      Fliplet.Modal.alert({
+        message: 'Bundle ID already exists. Please choose a unique Bundle ID.'
+      });
+
+      return false;
+    }
+
+    return true;
+  } catch (e) {
+    Fliplet.Modal.alert({
+      message: 'We could not verify the Bundle ID. Please try again.'
+    });
+  }
+}
+
 $('form').validator({
   custom: {
     'validation-url-contains': function($el) {
@@ -3112,7 +3144,7 @@ $('#appStoreConfiguration, #enterpriseConfiguration, #unsignedConfiguration').on
   Fliplet.Widget.autosize();
 });
 
-$('#appStoreConfiguration').validator().on('submit', function(event) {
+$('#appStoreConfiguration').validator().on('submit', async function(event) {
   if (!storeFeatures.public) {
     Fliplet.Studio.emit('overlay', {
       name: 'app-settings',
@@ -3209,6 +3241,10 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
     return;
   }
 
+  if (!await isBundleIdUnique('store', 'appStore')) {
+    return;
+  }
+
   if (appInfo && appInfo.productionAppId) {
     if (allAppData.indexOf('appStore') > -1) {
       if (appStoreLoggedIn) {
@@ -3271,7 +3307,7 @@ $('#appStoreConfiguration').validator().on('submit', function(event) {
   setTimeout(checkGroupErrors, 0);
 });
 
-$('#enterpriseConfiguration').validator().on('submit', function(event) {
+$('#enterpriseConfiguration').validator().on('submit', async function(event) {
   if (!storeFeatures.private) {
     Fliplet.Studio.emit('overlay', {
       name: 'app-settings',
@@ -3375,6 +3411,10 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
     return;
   }
 
+  if (!await isBundleIdUnique('ent', 'enterprise')) {
+    return;
+  }
+
   if (appInfo && appInfo.productionAppId) {
     if (allAppData.indexOf('enterprise') > -1) {
       var message = 'Are you sure you wish to update your published app?';
@@ -3413,7 +3453,7 @@ $('#enterpriseConfiguration').validator().on('submit', function(event) {
   setTimeout(checkGroupErrors, 0);
 });
 
-$('#unsignedConfiguration').validator().on('submit', function(event) {
+$('#unsignedConfiguration').validator().on('submit', async function(event) {
   if (!organizationIsPaying) {
     Fliplet.Studio.emit('overlay', {
       name: 'app-settings',
@@ -3472,6 +3512,10 @@ $('#unsignedConfiguration').validator().on('submit', function(event) {
   if (mustReviewTos) {
     Fliplet.Studio.emit('onMustReviewTos');
 
+    return;
+  }
+
+  if (!await isBundleIdUnique('uns', 'unsigned')) {
     return;
   }
 
