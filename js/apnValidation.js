@@ -9,7 +9,7 @@ const testResultMessage = document.getElementById('fl-push-testResultMessage');
 
 const MESSAGE = {
   SUCCESS: 'Success! Push notifications have been configured successfully.',
-  ERROR_INPUT: 'Error - notifications have not beeen configured, please check the details you have entered and try again',
+  ERROR_INPUT: 'Error - notifications have not been configured, please check the details you have entered and try again',
   ERROR_SERVER: 'Error - notifications have not been configured correctly. Please review <a href="https://help.fliplet.com" target="_blank">https://help.fliplet.com</a> or contact support.',
   ERROR_NO_KEY: '<strong>Authentication key</strong> is missing, please check provided information and try again',
   ERROR_NO_KEYID: '<strong>Key ID</strong> is missing, please check provided information and try again',
@@ -59,7 +59,7 @@ const validateApnKey = async({ apnAuthKey, apnKeyId, apnTeamId, apnTopic }) => {
 
     if (response.status === 200) {
       const { 0: { message: { 0: { errorMsg } } } } = await (response.json());
-  
+
       const message = mappedMessages[errorMsg];
 
       if (message) {
@@ -116,7 +116,7 @@ function goToTechDetails() {
   const techDetailsDropdown = document.getElementById('appStoreTech');
 
   appStoreTab.click();
-  
+
   if (techDetailsDropdown.getAttribute('aria-expanded') !== 'true') {
     techDetailsDropdownAnchor.click();
   }
