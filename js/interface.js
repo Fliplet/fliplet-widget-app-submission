@@ -3,6 +3,10 @@ var widgetData = Fliplet.Widget.getData(widgetId) || {};
 var organizationIsPaying = widgetData.organizationIsPaying;
 var mustReviewTos = widgetData.mustReviewTos;
 var storeFeatures = _.get(widgetData, 'appFeatures.appStores.apple', {});
+
+// Check for hideStoreTab query parameter
+var urlParams = new URLSearchParams(window.location.search);
+var hideStoreTab = urlParams.get('hideStoreTab') === 'true';
 var appName = '';
 var organizationName = '';
 var appIcon = '';
@@ -1886,6 +1890,14 @@ function init() {
       return app.id === Fliplet.Env.get('appId');
     });
   });
+
+  // Hide App Store tab if hideStoreTab query parameter is true
+  if (hideStoreTab) {
+    $('#appstore-control').hide();
+    $('#appstore-tab').removeClass('active');
+    $('#enterprise-control').addClass('active');
+    $('#enterprise-tab').addClass('active');
+  }
 
   $('#fl-store-keywords').tokenfield({
     createTokensOnBlur: true
