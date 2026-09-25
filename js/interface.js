@@ -38,6 +38,8 @@ var appStoreSubmission = {};
 var enterpriseSubmission = {};
 var unsignedSubmission = {};
 var notificationSettings = {};
+// APNs Team ID supplied by an App Store / Enterprise save in this session (never returned by the API)
+var sessionApnTeamId;
 var appInfo;
 var demoUser;
 var userInput = false;
@@ -757,20 +759,20 @@ function loadUnsignedData() {
 }
 
 function loadPushNotesData() {
+  var savedKeyHint = 'Saved — leave blank to keep the current key, or paste a new one to replace it';
+
+  // Push credentials are write-only: the API never returns them, so the fields always start empty
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr('name');
 
-    // ADDING NOTIFICATIONS SETTINGS
-    if (name === 'fl-push-authKey') {
-      $('[name="' + name + '"]').val(notificationSettings.apnAuthKey || '');
-
+    if (name !== 'fl-push-authKey' && name !== 'fl-push-keyId') {
       return;
     }
 
-    if (name === 'fl-push-keyId') {
-      $('[name="' + name + '"]').val(notificationSettings.apnKeyId || '');
+    $(el).val('');
 
-      return;
+    if (notificationSettings.apn === true) {
+      $(el).attr('placeholder', savedKeyHint);
     }
   });
 }
@@ -1194,7 +1196,7 @@ function requestBuild(origin, submission) {
 
 function saveAppStoreData(request) {
   var data = appStoreSubmission.data || {};
-  var pushData = notificationSettings;
+  var pushData = {};
 
   $('#appStoreConfiguration [name]').each(function(i, el) {
     var name = $(el).attr('name');
@@ -1263,9 +1265,7 @@ function saveAppStoreData(request) {
 
   data['fl-credentials'] = 'submission-' + appStoreSubmission.id;
   appStoreSubmission.data = data;
-  notificationSettings = pushData;
-
-  savePushData(true);
+  savePushData(true, pushData);
 
   if (request) {
     if (!storeFeatures.public) {
@@ -1297,7 +1297,7 @@ function saveAppStoreData(request) {
 
 function saveEnterpriseData(request) {
   var data = enterpriseSubmission.data || {};
-  var pushData = notificationSettings;
+  var pushData = {};
   var uploadFilePromise = Promise.resolve();
 
   $('#enterpriseConfiguration [name]').each(function(i, el) {
@@ -1389,11 +1389,9 @@ function saveEnterpriseData(request) {
 
     uploadFilePromise.then(function() {
       enterpriseSubmission.data = data;
-      notificationSettings = pushData;
-
       delete enterpriseSubmission.data['fl-credentials'];
 
-      savePushData(true);
+      savePushData(true, pushData);
 
       if (request) {
         return requestBuild('enterprise', enterpriseSubmission);
@@ -1404,9 +1402,7 @@ function saveEnterpriseData(request) {
   } else {
     data['fl-credentials'] = 'submission-' + enterpriseSubmission.id;
     enterpriseSubmission.data = data;
-    notificationSettings = pushData;
-
-    savePushData(true);
+    savePushData(true, pushData);
 
     if (request) {
       if (!storeFeatures.private) {
@@ -1488,12 +1484,46 @@ function saveUnsignedData(request) {
   return save('unsigned', unsignedSubmission);
 }
 
-function savePushData(silentSave) {
-  var data = notificationSettings || {};
+/**
+ * Returns the APNs Team ID already known to this page: one supplied by an App Store /
+ * Enterprise save in this session, otherwise the team of a previously loaded credential
+ * or saved submission. Lets keys added on the Push tab in a later session enable APNs.
+ * @returns {String|undefined} Team ID
+ */
+function getKnownApnTeamId() {
+  return sessionApnTeamId
+    || (appStorePreviousCredential && appStorePreviousCredential.teamId)
+    || (appStoreSubmission && appStoreSubmission.data && appStoreSubmission.data['fl-store-teamId'])
+    || (enterprisePreviousCredential && enterprisePreviousCredential.teamId)
+    || (enterpriseSubmission && enterpriseSubmission.data && enterpriseSubmission.data['fl-ent-teamId'])
+    || undefined;
+}
+
+/**
+ * Saves push notification settings as a delta. Push credentials are write-only
+ * (the API strips them from responses), so only values known in this session are sent:
+ * a missing key keeps the stored value, whereas '' or null would overwrite or delete it.
+ * @param {Boolean} silentSave - Skip the confirmation alert
+ * @param {Object} [changes] - apnTeamId / apnTopic supplied by an App Store / Enterprise save
+ * @returns {void}
+ */
+function savePushData(silentSave, changes) {
+  var payload = {};
   var pushDataMap = {
     'fl-push-authKey': 'apnAuthKey',
     'fl-push-keyId': 'apnKeyId'
   };
+
+  changes = changes || {};
+
+  if (changes.apnTeamId) {
+    sessionApnTeamId = changes.apnTeamId;
+    payload.apnTeamId = changes.apnTeamId;
+  }
+
+  if (changes.apnTopic) {
+    payload.apnTopic = changes.apnTopic;
+  }
 
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr('name');
@@ -1508,21 +1538,29 @@ function savePushData(silentSave) {
       value = value.trim();
     }
 
-    data[pushDataMap[name]] = value;
+    // Blank means "keep the current value"
+    if (value) {
+      payload[pushDataMap[name]] = value;
+    }
   });
 
-  data.apn = !!((data.apnAuthKey && data.apnAuthKey !== '') && (data.apnKeyId && data.apnKeyId !== '') && (data.apnTeamId && data.apnTeamId !== '') && (data.apnTopic && data.apnTopic !== ''));
+  var knownApnTeamId = getKnownApnTeamId();
 
-  notificationSettings = data;
+  // Only enable APNs when all four values are known now; never send apn: false
+  if (payload.apnAuthKey && payload.apnKeyId && knownApnTeamId
+    && (payload.apnTopic || notificationSettings.apnTopic)) {
+    payload.apn = true;
 
-  Fliplet.API.request({
-    method: 'PUT',
-    url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId'),
-    data: notificationSettings
-  }).then(function() {
+    // Store the team the key is enabled for
+    if (!payload.apnTeamId) {
+      payload.apnTeamId = knownApnTeamId;
+    }
+  }
+
+  function onSaved() {
     $('.save-push-progress').addClass('saved');
 
-    if (!notificationSettings.apn && !silentSave) {
+    if (payload.apn !== true && notificationSettings.apn !== true && !silentSave) {
       Fliplet.Modal.alert({
         title: 'Your settings have been saved!',
         message: [
@@ -1535,6 +1573,32 @@ function savePushData(silentSave) {
     setTimeout(function() {
       $('.save-push-progress').removeClass('saved');
     }, 4000);
+  }
+
+  // Nothing to change (the API rejects empty settings)
+  if (_.isEmpty(payload)) {
+    if (!silentSave) {
+      onSaved();
+    }
+
+    return;
+  }
+
+  Fliplet.API.request({
+    method: 'PUT',
+    url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId'),
+    data: payload
+  }).then(function() {
+    // Keep only non-secret values locally
+    if (payload.apnTopic) {
+      notificationSettings.apnTopic = payload.apnTopic;
+    }
+
+    if (payload.apn === true) {
+      notificationSettings.apn = true;
+    }
+
+    onSaved();
   });
 }
 
