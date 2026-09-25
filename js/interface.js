@@ -1485,6 +1485,21 @@ function saveUnsignedData(request) {
 }
 
 /**
+ * Returns the APNs Team ID already known to this page: one supplied by an App Store /
+ * Enterprise save in this session, otherwise the team of a previously loaded credential
+ * or saved submission. Lets keys added on the Push tab in a later session enable APNs.
+ * @returns {String|undefined} Team ID
+ */
+function getKnownApnTeamId() {
+  return sessionApnTeamId
+    || (appStorePreviousCredential && appStorePreviousCredential.teamId)
+    || (appStoreSubmission && appStoreSubmission.data && appStoreSubmission.data['fl-store-teamId'])
+    || (enterprisePreviousCredential && enterprisePreviousCredential.teamId)
+    || (enterpriseSubmission && enterpriseSubmission.data && enterpriseSubmission.data['fl-ent-teamId'])
+    || undefined;
+}
+
+/**
  * Saves push notification settings as a delta. Push credentials are write-only
  * (the API strips them from responses), so only values known in this session are sent:
  * a missing key keeps the stored value, whereas '' or null would overwrite or delete it.
@@ -1529,10 +1544,17 @@ function savePushData(silentSave, changes) {
     }
   });
 
+  var knownApnTeamId = getKnownApnTeamId();
+
   // Only enable APNs when all four values are known now; never send apn: false
-  if (payload.apnAuthKey && payload.apnKeyId && sessionApnTeamId
+  if (payload.apnAuthKey && payload.apnKeyId && knownApnTeamId
     && (payload.apnTopic || notificationSettings.apnTopic)) {
     payload.apn = true;
+
+    // Store the team the key is enabled for
+    if (!payload.apnTeamId) {
+      payload.apnTeamId = knownApnTeamId;
+    }
   }
 
   function onSaved() {
@@ -1568,8 +1590,6 @@ function savePushData(silentSave, changes) {
     data: payload
   }).then(function() {
     // Keep only non-secret values locally
-    notificationSettings = notificationSettings || {};
-
     if (payload.apnTopic) {
       notificationSettings.apnTopic = payload.apnTopic;
     }
