@@ -760,18 +760,25 @@ function loadUnsignedData() {
 
 function loadPushNotesData() {
   var savedKeyHint = 'Saved — leave blank to keep the current key, or paste a new one to replace it';
+  var pushDataMap = {
+    'fl-push-authKey': 'apnAuthKey',
+    'fl-push-keyId': 'apnKeyId'
+  };
 
-  // Push credentials are write-only: the API never returns them, so the fields always start empty
+  // The API returns saved credentials to app publishers, editors and organization
+  // admins only. Other users get the fields empty, with a hint when a key is saved.
   $('#pushConfiguration [name]').each(function(i, el) {
     var name = $(el).attr('name');
 
-    if (name !== 'fl-push-authKey' && name !== 'fl-push-keyId') {
+    if (!pushDataMap.hasOwnProperty(name)) {
       return;
     }
 
-    $(el).val('');
+    var savedValue = notificationSettings[pushDataMap[name]];
 
-    if (notificationSettings.apn === true) {
+    $(el).val(savedValue || '');
+
+    if (!savedValue && notificationSettings.apn === true) {
       $(el).attr('placeholder', savedKeyHint);
     }
   });
@@ -1500,9 +1507,9 @@ function getKnownApnTeamId() {
 }
 
 /**
- * Saves push notification settings as a delta. Push credentials are write-only
- * (the API strips them from responses), so only values known in this session are sent:
- * a missing key keeps the stored value, whereas '' or null would overwrite or delete it.
+ * Saves push notification settings as a delta. Only changed values are sent: a missing
+ * key keeps the stored value, whereas '' or null would overwrite or delete it. Users who
+ * cannot read the saved credentials see blank fields, and blank keeps the stored value.
  * @param {Boolean} silentSave - Skip the confirmation alert
  * @param {Object} [changes] - apnTeamId / apnTopic supplied by an App Store / Enterprise save
  * @returns {void}
@@ -1539,15 +1546,18 @@ function savePushData(silentSave, changes) {
     }
 
     // Blank means "keep the current value"
-    if (value) {
+    if (value && value !== notificationSettings[pushDataMap[name]]) {
       payload[pushDataMap[name]] = value;
     }
   });
 
   var knownApnTeamId = getKnownApnTeamId();
+  var apnAuthKey = payload.apnAuthKey || notificationSettings.apnAuthKey;
+  var apnKeyId = payload.apnKeyId || notificationSettings.apnKeyId;
+  var keysChanged = !!(payload.apnAuthKey || payload.apnKeyId);
 
   // Only enable APNs when all four values are known now; never send apn: false
-  if (payload.apnAuthKey && payload.apnKeyId && knownApnTeamId
+  if ((keysChanged || notificationSettings.apn !== true) && apnAuthKey && apnKeyId && knownApnTeamId
     && (payload.apnTopic || notificationSettings.apnTopic)) {
     payload.apn = true;
 
@@ -1589,10 +1599,7 @@ function savePushData(silentSave, changes) {
     url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId'),
     data: payload
   }).then(function() {
-    // Keep only non-secret values locally
-    if (payload.apnTopic) {
-      notificationSettings.apnTopic = payload.apnTopic;
-    }
+    _.assign(notificationSettings, _.pick(payload, ['apnAuthKey', 'apnKeyId', 'apnTopic']));
 
     if (payload.apn === true) {
       notificationSettings.apn = true;
@@ -2665,7 +2672,7 @@ function initialLoad(initial, timeout) {
       .then(function() {
         return Fliplet.API.request({
           method: 'GET',
-          url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId')
+          url: 'v1/widget-instances/com.fliplet.push-notifications?appId=' + Fliplet.Env.get('appId') + '&includeSensitiveData=true'
         });
       })
       .then(function(response) {
